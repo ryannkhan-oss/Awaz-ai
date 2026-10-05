@@ -385,6 +385,7 @@ async function submitRep(){const c=S.cat;if(!c)return;if(!S.loc)S.loc=cellOf(M.l
 if(S.priv){const note=(S.note||'').slice(0,600);try{const e=await enc({cat:c,when:w[0],cell:S.loc,note});S.diary.unshift({id:'p'+Date.now().toString(36),ts:Date.now(),enc:e});save();S.cat=null;S.note='';render();modal('<h3>🔒 Saved privately</h3><p>Only you can read this entry. It is encrypted on this phone and is not on the map. You can find it in MORE → My private diary, and share it anonymously later if you choose.</p>')}catch(x){modal('<h3>Cannot encrypt here</h3><p class="mu">Open the app over HTTPS (the Android app works).</p>')}return}
 const mine=S.reports.filter(r=>r.d===S.dev&&!r.demo&&Date.now()-r.ts<864e5).length;
 if(mine>=5){modal('<h3>Daily limit reached</h3><p class="mu">Each phone can send 5 public reports per day. This protects the map from spam. You can still save entries privately or use SOS.</p>');return}
+const recent=S.reports.find(r=>!r.demo&&!r.priv&&r.d===S.dev&&r.cat===c&&r.cell===S.loc&&Date.now()-r.ts<15*60e3);if(recent){modal('<h3>Duplicate report blocked</h3><p class="mu">The same category was already reported for this area from this phone recently.</p>');return}
 let trust=w[2];if(S.when===0){trust=S.me&&hav(S.me,cellMid(S.loc))<=800?1:.6}
 const id=(await sha(S.dev+c+S.loc+Date.now())).slice(0,12);S.reports.push({id,cat:c,cell:S.loc,sev:CAT[c][0],haz:CAT[c][2]&&S.when<=1?1:0,t,ts:Date.now(),d:S.dev,trust,when:S.when});save();S.cat=null;vib();render();
 modal(`<h3>✅ Report Stored Safely</h3><p>Your report has been added to the local safety dataset.</p><p class="mu">${S.off||!navigator.onLine?'Offline Mode — Report will remain on this device until a supported synchronization opportunity exists.':'Stored on this phone first; nothing is uploaded by this prototype.'}</p><p class="mu">Pseudonymous ID: ${id}<br>${trust>=1?'Counted at full weight (you were on site).':'Counted at reduced weight (not confirmed on site or not recent).'} A zone turns red only when several phones report it.</p>`)}
@@ -412,10 +413,10 @@ if(p.ttl>1&&NAT)NAT.send(JSON.stringify({...p,ttl:p.ttl-1,hop:(p.hop||0)+1}));
 modal(`<h3>🚨 Emergency alert nearby</h3><p>Someone close to you sent an alert ${ago(o.t)} (${(p.hop||0)+1} hop${(p.hop||0)?'s':''} away), ${esc(nearName(o.cell))||'in a ~500 m square'}.</p><button class="btn" onclick="this.closest('.mod').remove();showCell('${o.cell}')">Show on map</button>`);render()}catch(e){}};
 function toggleMesh(){S.mesh=S.mesh?0:1;if(NAT){S.mesh?NAT.start():NAT.stop()}if(!S.mesh)S.peers=0;save();render()}
 let wI=0;
-function walkStart(){S.walk=Date.now()+(+$('#wm').value)*6e4;S.grace=0;clearInterval(wI);wI=setInterval(walkTick,1000);render();walkTick()}
-function walkTick(){if(!S.walk)return;const r=S.walk-Date.now(),el=$('#wt');if(r>0){if(el)el.textContent=String(Math.floor(r/6e4)).padStart(2,'0')+':'+String(Math.floor(r/1e3)%60).padStart(2,'0');return}
+function walkStart(){S.walkStart=Date.now();S.walk=S.walkStart+(+$('#wm').value)*6e4;S.grace=0;clearInterval(wI);wI=setInterval(walkTick,1000);render();walkTick()}
+function walkTick(){if(!S.walk)return;const r=S.walk-Date.now(),el=$('#wt'),bar=$('#walkProgress'),ph=$('#walkPhase'),total=(S.walk-S.walkStart)||1;if(r>0){if(el)el.textContent=String(Math.floor(r/6e4)).padStart(2,'0')+':'+String(Math.floor(r/1e3)%60).padStart(2,'0');if(bar)bar.style.width=Math.max(0,Math.min(100,((total-r)/total)*100))+'%';if(ph)ph.textContent='🟢 Timer active · cancel when you arrive';return}
 if(!S.grace){S.grace=Date.now()+15000;vib([300,150,300,150,300]);modal('<h3>⏱️ Are you safe?</h3><p>An alert will be created in 15 seconds.</p><button class="btn" onclick="walkStop()">I\'m safe</button>')}else if(Date.now()>S.grace){walkStop();sendAlert()}}
-function walkStop(){clearInterval(wI);S.walk=null;S.grace=0;document.querySelectorAll('.mod').forEach(m=>m.remove());render()}
+function walkStop(){clearInterval(wI);S.walk=null;S.walkStart=null;S.grace=0;document.querySelectorAll('.mod').forEach(m=>m.remove());render()}
 
 /* ---------- LLM assistant (Groq, user's own key, aggregated context only) ---------- */
 const CHAT=[],AIH=[];let lastModel='';
