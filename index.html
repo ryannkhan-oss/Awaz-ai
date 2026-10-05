@@ -361,8 +361,7 @@ return`<div class="v"><h2>Anonymous Safety Report</h2><p class="mu">No name. No 
 <button class="btn" ${S.cat?'':'disabled'} onclick="submitRep()">${S.priv?'SAVE PRIVATELY':t('SUBMIT ANONYMOUSLY')}</button><p class="mu">${S.reports.filter(r=>!r.priv).length} public reports on this phone (${S.reports.filter(r=>r.demo).length} are fictional demo data).</p></div>`}
 if(S.tab==='alert'){const al=S.alerts.map(x=>{const ex=Date.now()-x.ts>864e5;return`<div class="card"><b>${x.id}</b> · <span class="badge ${/Sent|Delivered/.test(x.status)?'on':'off'}">${ex?'Expired':esc(x.status)}</span><div class="mu">Created ${ago(x.ts)} · TTL ${x.ttl} · encrypted</div>${NAT?`<button class="btn s" onclick="resend('${x.id}')">Resend to nearby phones</button>`:`<button class="btn s" ${x.busy||x.status==='Delivered (simulated)'?'disabled':''} onclick="relay('${x.id}')">Simulate relay (preview only)</button>`}${x.log.length?'<ul class="log">'+x.log.map(l=>`<li>${esc(l)}</li>`).join('')+'</ul>':''}</div>`}).join('');
 const inb=S.inbox.map(x=>`<div class="card"><b>🚨 Alert from a nearby phone</b><div class="mu">${ago(x.t)} · ${x.hop} hop${x.hop>1?'s':''} · ${esc(nearName(x.cell))||'~500 m square'}</div><button class="btn s" onclick="showCell('${x.cell}')">Show on map</button></div>`).join('');
-const w=S.walk?`<div class="tm" id="wt">--:--</div><button class="btn" onclick="walkStop()">I'm safe — cancel timer</button>`:`<label for="wm">Walk-home timer</label><select id="wm">${[10,20,30,45,60].map(m=>`<option value="${m}">${m} min</option>`).join('')}</select><button class="btn s" onclick="walkStart()">▶ Start safe-walk timer</button>`;
-return`<div class="v"><h2>Offline Emergency</h2><button class="btn sos" onclick="sendAlert()">🚨 ${t('SEND OFFLINE ALERT')}</button><a class="btn s" href="${smsHref()}" onclick="return smsOk()">✉️ SOS by SMS to trusted contacts (works without data)</a><p class="mu">Alerts are AES-GCM encrypted and stored on this phone, even in Airplane Mode.</p>
+const w=S.walk?`<div class="glass glass-shine" style="padding:18px;border-radius:22px;text-align:center"><div class="tm" id="wt">--:--</div><div id="walkPhase" class="mu">🟢 Timer active · cancel when you arrive</div><div style="height:8px;background:#ffffff12;border-radius:99px;overflow:hidden;margin:14px 0"><i id="walkProgress" style="display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:99px"></i></div><button class="btn" onclick="walkStop()">✓ I'm safe — cancel timer</button></div>`:`<label for="wm">Walk-home timer</label><select id="wm">${[10,20,30,45,60].map(m=>`<option value="${m}">${m} min</option>`).join('')}</select><button class="btn s" onclick="walkStart()">▶ Start safe-walk timer</button>`;return`<div class="v"><h2>Offline Emergency</h2><button class="btn sos" onclick="sendAlert()">🚨 ${t('SEND OFFLINE ALERT')}</button><a class="btn s" href="${smsHref()}" onclick="return smsOk()">✉️ SOS by SMS to trusted contacts (works without data)</a><p class="mu">Alerts are AES-GCM encrypted and stored on this phone, even in Airplane Mode.</p>
 <div class="card"><b>📡 Nearby relay</b>${NAT?`<div class="radar"><i></i><i></i><i></i><b>${S.peers}</b></div><div class="mu" style="text-align:center">${S.mesh?S.peers+' AWAZ phone'+(S.peers===1?'':'s')+' connected nearby':'Relay is off'}</div><button class="btn ${S.mesh?'s':''}" onclick="toggleMesh()">${S.mesh?'■ Turn off nearby relay':'📡 Turn on nearby relay'}</button><div class="mu">Phone-to-phone over Bluetooth/Wi-Fi Direct. Only phones with the same community key can read alerts. Delivery is not guaranteed.</div>`:`<div class="mu">Preview mode: relay is simulated here. In the Android app, phones relay encrypted alerts to each other for real.</div>`}</div>
 <div class="card"><b>⏱️ Safe-walk timer</b><div class="mu">If you do not cancel it, an alert is created after a 15 s warning.</div>${w}</div>${inb}${al||'<p class="mu">No alerts yet.</p>'}${audioCard()}</div>`}
 const cat={},tb={'Day (06–18)':0,'Evening (18–22)':0,'Night (22–06)':0};S.reports.filter(r=>!r.priv&&!r.dup).forEach(r=>{cat[r.cat]=(cat[r.cat]||0)+1;const h=new Date(r.t).getHours();tb[h>=6&&h<18?'Day (06–18)':h>=18&&h<22?'Evening (18–22)':'Night (22–06)']++});
@@ -461,62 +460,3 @@ if(NAT&&S.mesh)setTimeout(()=>NAT.start(),800);
 </script>
 </body>
 </html>
-<!-- ============================= -->
-<!-- AWAZ AI MAP & ROUTES -->
-<!-- ============================= -->
-
-<section id="awaz-maps" style="padding: 20px;">
-
-  <h2>🗺️ AWAZ AI Maps</h2>
-
-  <div style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px;">
-    <button style="padding:10px 16px; border-radius:8px; background:#FFE500; color:#000; border:none; font-weight:bold; cursor:pointer;" onclick="showAWAZMap('school')">
-      🏫 Aga Khan School
-    </button>
-    <button style="padding:10px 16px; border-radius:8px; background:#FFE500; color:#000; border:none; font-weight:bold; cursor:pointer;" onclick="showAWAZMap('dhq')">
-      🏥 DHQ Hospital
-    </button>
-    <button style="padding:10px 16px; border-radius:8px; background:#FFE500; color:#000; border:none; font-weight:bold; cursor:pointer;" onclick="showAWAZMap('alkhidmat')">
-      🏥 Al Khidmat Hospital
-    </button>
-    <button style="padding:10px 16px; border-radius:8px; background:#FFE500; color:#000; border:none; font-weight:bold; cursor:pointer;" onclick="showAWAZMap('shifa')">
-      🏥 Shifa Hospital
-    </button>
-    <button style="padding:10px 16px; border-radius:8px; background:#FFE500; color:#000; border:none; font-weight:bold; cursor:pointer;" onclick="showAWAZMap('bus')">
-      🚌 Bus Stations
-    </button>
-  </div>
-
-  <div id="awaz-map-container">
-    <iframe
-      id="awaz-map"
-      width="100%"
-      height="450"
-      style="border:0; border-radius:16px;"
-      loading="lazy"
-      allowfullscreen
-      referrerpolicy="strict-origin-when-cross-origin"
-      src="https://www.google.com/maps/embed/v1/directions?key=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&origin=Chitral+Bazar%2C+Chitral%2C+Pakistan&destination=Aga+Khan+Higher+Secondary+School%2C+Seenlasht%2C+Chitral%2C+Pakistan&mode=driving&units=metric">
-    </iframe>
-  </div>
-
-</section>
-
-<script>
-function showAWAZMap(type) {
-  // Your API Key variable definition
-  const apiKey = "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";
-
-  const maps = {
-    school: `https://www.google.com/maps/embed/v1/directions?key=${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}&origin=Chitral+Bazar%2C+Chitral%2C+Pakistan&destination=Aga+Khan+Higher+Secondary+School%2C+Seenlasht%2C+Chitral%2C+Pakistan&mode=driving&units=metric`,
-    dhq: `https://www.google.com/maps/embed/v1/directions?key=${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}&origin=Seenlasht%2C+Chitral%2C+Pakistan&destination=District+Headquarters+Hospital%2C+Chitral%2C+Pakistan&mode=driving&units=metric`,
-    alkhidmat: `https://www.google.com/maps/embed/v1/directions?key=${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}&origin=Seenlasht%2C+Chitral%2C+Pakistan&destination=Al+Khidmat+Hospital+Chitral%2C+Pakistan&mode=driving&units=metric`,
-    shifa: `https://www.google.com/maps/embed/v1/directions?key=${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}&origin=Seenlasht%2C+Chitral%2C+Pakistan&destination=Shifa+Diagnostic+and+General+Hospital%2C+Chitral%2C+Pakistan&mode=driving&units=metric`,
-    bus: `https://www.google.com/maps/embed/v1/search?key=${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}&q=bus+station+Chitral%2C+Pakistan`
-  };
-
-  if (maps[type]) {
-    document.getElementById("awaz-map").src = maps[type];
-  }
-}
-</script>
