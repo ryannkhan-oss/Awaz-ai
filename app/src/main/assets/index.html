@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AWAZ AI</title>
+<style>
+@font-face{font-family:"AwazSans";src:url("fonts/sans.ttf");font-display:swap}
+@font-face{font-family:"AwazUrdu";src:url("fonts/urdu.ttf");font-display:swap}
+:root{color-scheme:dark;--bg:#060b16;--card:#0e1a30cc;--solid:#0e1a30;--ink:#eef3fc;--mute:#8d9dba;--line:#ffffff1f;--acc:#35e0a1;--acc2:#4aa8ff;--g:#2fd37f;--y:#f5be3b;--r:#ff5d5d;--btn:#ffffff14;--sans:"AwazSans",Inter,"Segoe UI",Roboto,system-ui,sans-serif;--ur:"AwazUrdu","Noto Nastaliq Urdu","Jameel Noori Nastaleeq",serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 var(--sans);letter-spacing:.005em;padding-bottom:calc(96px + env(safe-area-inset-bottom,0px));overflow-x:hidden}
+body[dir=rtl]{font-family:var(--ur);line-height:2}
+body::before{content:"";position:fixed;inset:-25%;z-index:-1;background:radial-gradient(40% 30% at 18% 12%,#35e0a12e,transparent),radial-gradient(35% 28% at 88% 22%,#4aa8ff2e,transparent),radial-gradient(40% 30% at 50% 100%,#7a5cff22,transparent);animation:drift 20s ease-in-out infinite alternate}
+body.ps{background:#000}body.ps::before{display:none}
+.ps *{animation:none!important;transition:none!important}
+@keyframes drift{to{transform:translate3d(4%,3%,0) scale(1.1)}}
+@keyframes up{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(.7);opacity:0}70%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 #ff5d5dbb}100%{box-shadow:0 0 0 28px #ff5d5d00}}
+@keyframes ring{0%{transform:scale(.5);opacity:.9}100%{transform:scale(2.3);opacity:0}}
+@keyframes dash{to{stroke-dashoffset:-28}}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes grow{from{width:0}}
+@keyframes wave{0%,100%{transform:scaleY(.25)}50%{transform:scaleY(1)}}
+@keyframes shine{to{background-position:200% 0}}
+@keyframes sweep{from{left:0}to{left:100%}}
+.w{max-width:560px;margin:0 auto;padding:14px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0 4px}
+.logo{display:flex;align-items:center;gap:10px}
+.bars{display:flex;gap:3px;align-items:center;height:30px}
+.bars i{display:block;width:4px;height:100%;border-radius:3px;background:linear-gradient(var(--acc),var(--acc2));animation:wave 1.1s ease-in-out infinite}
+.bars i:nth-child(2){animation-delay:.12s}.bars i:nth-child(3){animation-delay:.24s}.bars i:nth-child(4){animation-delay:.36s}.bars i:nth-child(5){animation-delay:.48s}
+h1{font-size:1.35rem;margin:0;letter-spacing:.14em;font-weight:800}
+h2{margin:8px 0 4px;font-size:1.4rem;font-weight:800}h3{margin:4px 0}
+.mu{color:var(--mute);font-size:.86rem}
+.badge{display:inline-block;font-size:.7rem;font-weight:800;padding:3px 10px;border-radius:99px;border:1px solid var(--line);letter-spacing:.04em}
+.off{color:var(--y);border-color:var(--y)}.on{color:var(--g);border-color:var(--g)}
+.ib{background:var(--btn);color:var(--ink);border:1px solid var(--line);border-radius:14px;min-width:44px;min-height:44px;font-size:1.1rem;transition:transform .15s;backdrop-filter:blur(8px)}
+.ib:active,.btn:active,.cat:active,.chip:active{transform:scale(.94)}
+.card{background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.07) 42%,rgba(255,255,255,.035)),rgba(14,26,48,.72);border:1px solid rgba(255,255,255,.30);border-radius:22px;padding:16px;margin:12px 0;backdrop-filter:blur(28px) saturate(165%);-webkit-backdrop-filter:blur(28px) saturate(165%);box-shadow:0 18px 50px #0008,inset 0 1px #ffffff20,inset 0 -1px #ffffff08;position:relative;overflow:hidden}.card:before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,#fff0 0%,#ffffff0b 38%,#fff0 55%);transform:translateX(-120%);animation:cardSheen 7s ease-in-out infinite;pointer-events:none}@keyframes cardSheen{45%,100%{transform:translateX(120%)}} .glass{background:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.045)),rgba(10,18,36,.62);border:1px solid rgba(255,255,255,.26);backdrop-filter:blur(24px) saturate(150%);-webkit-backdrop-filter:blur(24px) saturate(150%);box-shadow:0 18px 50px #0007,inset 0 1px #ffffff12}.glass-shine{position:relative;overflow:hidden}.glass-shine:after{content:"";position:absolute;inset:-60%;background:linear-gradient(110deg,transparent 42%,#ffffff12 50%,transparent 58%);transform:translateX(-35%);animation:glassSweep 5s ease-in-out infinite;pointer-events:none}@keyframes glassSweep{50%,100%{transform:translateX(35%)}}
+.hero{background:linear-gradient(135deg,#35e0a12e,#4aa8ff26),var(--card);display:flex;align-items:center;gap:16px}
+.v>*{animation:up .55s cubic-bezier(.2,.8,.2,1) both}.v>:nth-child(2){animation-delay:.07s}.v>:nth-child(3){animation-delay:.14s}.v>:nth-child(4){animation-delay:.21s}.v>:nth-child(5){animation-delay:.28s}.v>:nth-child(n+6){animation-delay:.35s}
+.rg{position:relative;width:92px;height:92px;flex:none}
+.rg svg{width:92px;height:92px;transform:rotate(-90deg)}
+.rg circle{fill:none;stroke-width:9;stroke-linecap:round}
+#rc{transition:stroke-dasharray 1.4s cubic-bezier(.2,.8,.2,1)}
+.rg b{position:absolute;inset:0;display:grid;place-items:center;font-size:1.7rem;font-weight:800}
+#mp{position:relative;overflow:hidden;border-radius:22px;border:1px solid var(--line);background:#0c1830;touch-action:none;box-shadow:0 14px 40px #0008}
+#mv{position:absolute;inset:0;will-change:transform}
+#tl img{position:absolute;width:256px;height:256px;user-select:none;-webkit-user-drag:none}
+#ov{position:absolute;left:0;top:0}
+.mc{position:absolute;right:10px;top:10px;display:grid;gap:7px;z-index:2}
+.mc .ib{background:#060b16cc;color:#fff}
+.at{position:absolute;left:10px;bottom:5px;font-size:.62rem;color:#fff;text-shadow:0 0 3px #000;z-index:2}.map-place-list{margin-top:8px;padding:10px 11px;border-radius:18px;border:1px solid rgba(255,255,255,.28);background:linear-gradient(135deg,rgba(255,255,255,.13),rgba(255,255,255,.035));backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%);box-shadow:0 12px 32px rgba(0,0,0,.35),inset 0 1px rgba(255,255,255,.16)}.map-place-list>b{font-size:.82rem}.map-place-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:7px}.place-chip{display:flex;align-items:center;gap:6px;min-height:38px;padding:7px 9px;border-radius:12px;border:1px solid #ffffff18;background:#071225b8;color:var(--ink);font:inherit;font-size:.72rem;text-align:left}.place-chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.place-chip:active{transform:scale(.97);background:#ffffff18}
+.hint{position:absolute;left:10px;top:10px;right:64px;z-index:2;background:var(--acc);color:#04210f;border-radius:12px;padding:8px 12px;font-weight:700;font-size:.85rem;animation:pop .4s both}
+.t{font-size:10px;fill:#fff;stroke:#000;stroke-width:3;paint-order:stroke;pointer-events:none;font-weight:700}
+.pr{transform-box:fill-box;transform-origin:center;animation:ring 2.2s infinite}
+.mk{animation:ring 1.6s infinite;transform-box:fill-box;transform-origin:center}
+.rt{stroke-dasharray:1;animation:draw 1.2s ease-out both}
+.mr{animation:dash 1s linear infinite}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}
+.chip{border:1px solid var(--line);background:var(--btn);color:var(--ink);border-radius:99px;padding:8px 14px;font:inherit;font-size:.85rem;min-height:40px;transition:all .2s}
+.chip.s{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#04210f;border-color:transparent;font-weight:800}
+.btn{display:block;width:100%;min-height:54px;border:0;border-radius:16px;font:inherit;font-size:1rem;font-weight:800;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#04210f;margin:8px 0;text-align:center;text-decoration:none;line-height:54px;transition:transform .15s}
+.btn.s{background:var(--btn);color:var(--ink);border:1px solid var(--line)}
+.btn:disabled{opacity:.4}
+.sos{background:linear-gradient(135deg,#ff6a5d,#d12f45);color:#fff;min-height:100px;font-size:1.3rem;border-radius:60px;animation:pulse 1.8s infinite;line-height:normal}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cat{background:var(--btn);color:var(--ink);border:2px solid transparent;border-radius:18px;min-height:88px;font:inherit;font-size:.88rem;font-weight:700;transition:all .2s}
+.cat.sel{border-color:var(--acc);background:#35e0a11f;transform:translateY(-2px);box-shadow:0 8px 22px #35e0a133}
+select,input[type=range],input[type=text],input[type=tel],input[type=password],textarea{width:100%;min-height:46px;border-radius:14px;border:1px solid var(--line);background:#0006;color:var(--ink);font:inherit;font-size:1rem;padding:8px 12px;margin:4px 0 10px}
+textarea{min-height:90px}
+label{font-size:.82rem;color:var(--mute)}
+.row{display:flex;gap:8px;align-items:center}.row input{margin:4px 0}
+.sg{display:block;width:100%;text-align:start;background:var(--btn);border:1px solid var(--line);color:var(--ink);border-radius:12px;padding:9px 12px;margin:4px 0;font:inherit;font-size:.9rem}
+nav{position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));max-width:536px;margin:0 auto;display:flex;background:#0a1224e6;backdrop-filter:blur(18px);border:1px solid var(--line);border-radius:26px;z-index:5;box-shadow:0 12px 40px #000a}
+nav button{flex:1;min-height:62px;background:none;border:0;color:var(--mute);font:inherit;font-size:.62rem;font-weight:800;transition:all .25s;border-radius:22px;letter-spacing:.04em}
+nav button.a{color:var(--acc);background:#35e0a114}
+nav span{display:block;font-size:1.35rem;transition:transform .3s}
+nav .a span{transform:translateY(-2px) scale(1.18)}
+.radar{position:relative;width:120px;height:120px;margin:6px auto;display:grid;place-items:center}
+.radar i{position:absolute;inset:0;border-radius:50%;border:2px solid var(--acc);animation:ring 2.4s infinite}.radar i:nth-child(2){animation-delay:.8s}.radar i:nth-child(3){animation-delay:1.6s}
+.radar b{position:relative;font-size:2rem}
+.log{font:.78rem/1.5 ui-monospace,Menlo,monospace;color:var(--mute);margin:6px 0 0;padding-left:16px}
+.br{display:grid;grid-template-columns:120px 1fr 26px;gap:8px;align-items:center;font-size:.8rem;margin:5px 0}
+.prog{height:8px;background:var(--btn);border-radius:4px;overflow:hidden}.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:4px;transition:width .25s;animation:grow .9s both}
+.mod{position:fixed;inset:0;background:#000b;display:flex;align-items:center;justify-content:center;padding:18px;z-index:9;animation:up .25s both}
+.mod>div{background:var(--solid);border:1px solid var(--line);border-radius:22px;padding:18px;max-width:460px;width:100%;max-height:86%;overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:.88rem}td{padding:5px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.tm{font-size:2.4rem;font-weight:800;text-align:center;font-variant-numeric:tabular-nums}
+.toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%);background:var(--acc);color:#04210f;padding:10px 18px;border-radius:99px;font-weight:800;z-index:12;animation:pop .3s both}
+.num{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--line)}
+.num a{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#04210f;text-decoration:none;font-weight:800;border-radius:12px;padding:8px 14px;white-space:nowrap}
+#splash{position:fixed;inset:0;z-index:20;background:var(--bg);display:grid;place-items:center;transition:opacity .6s}
+#splash .bars{height:64px;gap:7px}#splash .bars i{width:9px}
+#splash h1{font-size:2.2rem;margin-top:14px;text-align:center}
+.sk{background:linear-gradient(90deg,var(--btn) 25%,#ffffff22 50%,var(--btn) 75%);background-size:200% 100%;animation:shine 1.4s linear infinite;border-radius:12px;height:44px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+</head>
+<body>
+<div id="splash"><div style="text-align:center"><div class="bars" style="justify-content:center"><i></i><i></i><i></i><i></i><i></i></div><h1>AWAZ AI</h1><div class="mu">When the network goes silent, your community doesn't have to.</div></div></div>
+<div class="w">
+<div class="top">
+<div class="logo"><div class="bars"><i></i><i></i><i></i><i></i><i></i></div><div><h1>AWAZ AI</h1><span id="net" class="badge"></span></div></div>
+<div><button class="ib" aria-label="What is real" onclick="truth()">ℹ️</button> <button class="ib" aria-label="Privacy by design" onclick="priv()">🛡️</button> <button class="ib" aria-label="Demo panel" onclick="demo()">⚙️</button></div>
+</div>
+<div id="main"></div>
+</div>
+<nav id="nav"></nav>
+<script>
+const $=s=>document.querySelector(s),sleep=ms=>new Promise(r=>setTimeout(r,ms)),vib=p=>{try{navigator.vibrate&&navigator.vibrate(p||40)}catch(e){}};
+const mem={};const ls=k=>{try{return localStorage.getItem(k)}catch(e){return mem[k]||null}};
+const sls=(k,v)=>{try{localStorage.setItem(k,v);return true}catch(e){mem[k]=v;return false}};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])).replace(/\n/g,'<br>');
+const REFC=.8124,f1=v=>Math.round(v*10)/10;
+const hav=(a,b)=>Math.hypot((a[0]-b[0])*111320,(a[1]-b[1])*111320*REFC);
+const cellOf=(la,lo)=>Math.floor(la*111320/500)+':'+Math.floor(lo*111320*REFC/500);
+const cellBox=c=>{const[i,j]=c.split(':').map(Number);return[i*500/111320,(i+1)*500/111320,j*500/(111320*REFC),(j+1)*500/(111320*REFC)]};
+const cellMid=c=>{const b=cellBox(c);return[(b[0]+b[1])/2,(b[2]+b[3])/2]};
+const AREAS=[{id:'chitral',n:'Chitral Town',la:35.8518,lo:71.7864},{id:'drosh',n:'Drosh Bazaar (demo network)',la:35.5588,lo:71.7940}];
+const AREA_LABELS=[{n:'Chitral Bazar',la:35.8512,lo:71.7869,k:'marketplace'},{n:'Chitral Town',la:35.8518,lo:71.7864,k:'place'},{n:'Shahi Masjid',la:35.8531,lo:71.7893,k:'place_of_worship'},{n:'Chitral Fort',la:35.8546,lo:71.7882,k:'place'},{n:'PIA Chowk',la:35.8500,lo:71.7848,k:'place'},{n:'DHQ Hospital',la:35.8550,lo:71.7907,k:'hospital'},{n:'Al Khidmat Hospital',la:35.8495,lo:71.7819,k:'hospital'},{n:'Shifa Diagnostic Hospital',la:35.8525,lo:71.7838,k:'hospital'},{n:'Bus Station',la:35.8477,lo:71.7840,k:'bus_station'},{n:'Aga Khan Higher Secondary School, Seenlasht',la:35.8850,lo:71.8000,k:'school'}];
+const CAT={'Verbal Harassment':[2,'🗣️'],'Stalking / Followed':[3,'👣'],'Unsafe Gathering':[2,'👥'],'Poor Lighting':[1,'💡'],'Theft / Snatching':[2,'👜'],'Road Blocked / Landslide':[3,'🪨',1],'Flood / River Rising':[3,'🌊',1],'Other concern':[1,'❗']};
+const WHEN=[['Now',0,.6],['Earlier today',.12,.6],['This week',3,.5],['1–2 months ago',45,.4],['Longer ago',120,.35]];
+const NUMS=[['Rescue 1122','1122','Ambulance, fire, rescue'],['Police','15','Emergency police'],['Fire Brigade','16',''],['Edhi Ambulance','115',''],['Motorway Police','130',''],['Human Rights Helpline','1099','Ministry of Human Rights'],['Cyber Harassment Helpline','0800-39393','Digital Rights Foundation'],['FIA Cybercrime','1991',''],['Child Helpline (Madadgar)','1098','']];
+const LNG={ur:{'MAP':'نقشہ','SAFE ROUTE':'محفوظ راستہ','REPORT':'رپورٹ','ALERT':'الرٹ','MORE':'مزید','FIND SAFER ROUTE':'محفوظ راستہ تلاش کریں','SUBMIT ANONYMOUSLY':'گمنام جمع کروائیں','SEND OFFLINE ALERT':'آف لائن الرٹ بھیجیں','Safety Index':'حفاظتی اشاریہ','Clear & Safe':'محفوظ','Use Caution':'احتیاط','High Reported Incidents':'زیادہ واقعات'}};
+const t=k=>(LNG[S.lang]||{})[k]||k;
+const ago=ts=>{const m=Math.round((Date.now()-ts)/6e4);return m<1?'just now':m<60?m+' min ago':m<1440?Math.round(m/60)+' h ago':Math.round(m/1440)+' d ago'};
+const ICO=k=>({hospital:'🏥',clinic:'🏥',doctors:'🏥',pharmacy:'💊',police:'👮',place_of_worship:'🕌',bus_station:'🚌',school:'🏫',college:'🎓',fire_station:'🚒',marketplace:'🛒',fuel:'⛽',restaurant:'🍽️',cafe:'☕',bank:'🏦',hotel:'🏨',guest_house:'🏨',demo:'📍',road:'🛣️'})[k]||'📍';
+const HAV=new Set(['hospital','clinic','doctors','pharmacy','police','place_of_worship','bus_station','school','college','fire_station','demo']);
+const NAT=window.AwazNative||null;
+const M={la:35.8518,lo:71.7864,z:14,w:300,h:340};
+const DEMO_N=[['Drosh Bazaar',50,150],['Main Chowk',170,60],['Bus Stand',340,150],['Hospital',150,245],['Market Junction',195,150],['School Gate',270,245]].map(([n,x,y])=>[n,35.5700-y*.0000756,71.7790+x*.0000768]);
+const DEMO_E=[[0,4,'Market Lane',.4],[4,2,'Market Lane',.4],[0,3,'School Road',.9],[3,5,'School Road',.9],[5,2,'School Road',.9],[0,1,'Old Bridge Path',.7],[1,2,'Old Bridge Path',.7],[1,4,'Old Bridge Path',.7]];
+const demoCompact=()=>({nodes:DEMO_N.map(n=>[n[1],n[2]]),ways:DEMO_E.map(e=>['demo',e[3],[e[0],e[1]],e[2]]),pois:DEMO_N.map(n=>[n[0],n[1],n[2],'demo'])});
+const demoAt=(cell,extra)=>{const[i,j]=cell.split(':').map(Number),n=Date.now(),R=(cat,c,m,d)=>({id:'demo'+Math.random().toString(36).slice(2,8),cat,cell:c,sev:CAT[cat][0],haz:0,t:n-m*6e4,ts:n-m*6e4,d,trust:.8,demo:1});const o=[R('Poor Lighting',cell,80,'dA'),R('Verbal Harassment',cell,55,'dB'),R('Stalking / Followed',cell,43,'dC')];if(extra)o.push(R('Unsafe Gathering',i+':'+(j+1),150,'dD'));return o};
+const dmid=e=>cellOf((DEMO_N[e[0]][1]+DEMO_N[e[1]][1])/2,(DEMO_N[e[0]][2]+DEMO_N[e[1]][2])/2);
+const mkDemo=()=>[...demoAt(cellOf(35.8518,71.7864),1),...demoAt(dmid(DEMO_E[0]),0),...demoAt(dmid(DEMO_E[1]),0)];
+let S={reports:[],diary:[],alerts:[],inbox:[],seen:[],contacts:[],nums:[],packs:[],tab:'map',cat:null,when:0,loc:null,priv:false,note:'',area:0,from:null,to:null,pick:null,route:null,k:3,pace:80,night:(h=>h>=18||h<6)(new Date().getHours()),sat:true,zones:true,hv:true,ps:false,lang:'en',off:false,thr:.58,fresh:0,me:null,walk:null,grace:0,peers:0,mesh:0,dev:'',osmMsg:'',osm:false,dl:0};
+try{const j=JSON.parse(ls('awaz_v5')||'null');if(j)Object.assign(S,{reports:j.reports||[],diary:j.diary||[],alerts:(j.alerts||[]).map(a=>({...a,busy:0})),inbox:j.inbox||[],seen:j.seen||[],contacts:j.contacts||[],nums:j.nums||[],packs:j.packs||[],lang:j.lang||'en',ps:!!j.ps,dev:j.dev||'',area:j.area||0,k:j.k===undefined?3:j.k,pace:j.pace||80,mesh:j.mesh||0,sat:j.sat!==false,dl:j.dl||0});else{const o=JSON.parse(ls('awaz_v1')||'null');if(o&&o.contacts)S.contacts=o.contacts}}catch(e){}
+S.packs.forEach(p=>AREAS.push(p));if(S.area>=AREAS.length)S.area=0;
+if(!S.dev)S.dev=[...crypto.getRandomValues(new Uint8Array(5))].map(x=>x.toString(16).padStart(2,'0')).join('');
+if(S.ps)S.sat=false;
+if(!S.reports.length&&!ls('awaz_seeded')){S.reports=mkDemo();sls('awaz_seeded','1')}
+const save=()=>sls('awaz_v5',JSON.stringify({reports:S.reports,diary:S.diary,alerts:S.alerts.slice(0,20).map(a=>({...a,busy:0})),inbox:S.inbox.slice(0,30),seen:S.seen.slice(-200),contacts:S.contacts,nums:S.nums,packs:S.packs,lang:S.lang,ps:S.ps,dev:S.dev,area:S.area,k:S.k,pace:S.pace,mesh:S.mesh,sat:S.sat,dl:S.dl}));
+/* ---------- crypto ---------- */
+const b64=u=>btoa(String.fromCharCode(...u)),unb=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function sha(s){try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch(e){let h=2166136261;for(const c of s){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return(h>>>0).toString(16).padStart(8,'0').repeat(8)}}
+async function key(){const j=ls('awaz_key');if(j)return crypto.subtle.importKey('jwk',JSON.parse(j),'AES-GCM',true,['encrypt','decrypt']);const k=await crypto.subtle.generateKey({name:'AES-GCM',length:256},true,['encrypt','decrypt']);sls('awaz_key',JSON.stringify(await crypto.subtle.exportKey('jwk',k)));return k}
+async function meshKey(){const pw=ls('awaz_mk')||'awaz-chitral',base=await crypto.subtle.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);return crypto.subtle.deriveKey({name:'PBKDF2',salt:new TextEncoder().encode('awaz-ai-mesh-v1'),iterations:100000,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['encrypt','decrypt'])}
+async function enc(o,k){k=k||await key();const iv=crypto.getRandomValues(new Uint8Array(12)),ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},k,new TextEncoder().encode(JSON.stringify(o)));return b64(iv)+'.'+b64(new Uint8Array(ct))}
+async function dec(s,k){k=k||await key();const[a,b]=s.split('.');return JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:unb(a)},k,unb(b))))}
+/* ---------- road graph (OpenStreetMap, cached offline) ---------- */
+let GR={nodes:[],edges:[],adj:[]},PL=[],RK={},HZ={},ER=[],CN={},IX=100;
+function buildGraph(c){const nodes=c.nodes,edges=[],adj=nodes.map(()=>[]);
+for(const w of c.ways){const g=w[2];for(let i=1;i<g.length;i++){const a=g[i-1],b=g[i];if(a===b)continue;const len=hav(nodes[a],nodes[b]);edges.push([a,b,len,w[0],w[1],cellOf((nodes[a][0]+nodes[b][0])/2,(nodes[a][1]+nodes[b][1])/2),w[3]]);adj[a].push(edges.length-1);adj[b].push(edges.length-1)}}
+GR={nodes,edges,adj};const seen=new Set();PL=c.pois.filter(p=>p[0]).map(p=>({n:p[0],la:p[1],lo:p[2],k:p[3]}));
+for(const w of c.ways){if(w[3]&&!seen.has(w[3])){seen.add(w[3]);const nd=nodes[w[2][0]];PL.push({n:w[3],la:nd[0],lo:nd[1],k:'road'})}}
+PL.sort((a,b)=>a.n.localeCompare(b.n))}
+function loadArea(i){S.area=i;const a=AREAS[i];let c=null;try{c=JSON.parse(ls('awaz_osm_'+a.id)||'null')}catch(e){}
+S.osm=!!c;if(!c)c=a.id==='drosh'?demoCompact():{nodes:[],ways:[],pois:[]};buildGraph(c);M.la=a.la;M.lo=a.lo;M.z=a.id==='drosh'&&!S.osm?14:16;S.from=S.to=null;S.route=null;S.loc=cellOf(a.la,a.lo);
+if(a.id==='drosh'&&!S.osm){S.from={la:DEMO_N[0][1],lo:DEMO_N[0][2],n:DEMO_N[0][0]};S.to={la:DEMO_N[2][1],lo:DEMO_N[2][2],n:DEMO_N[2][0]}}}
+function compact(d){const idx=new Map(),nodes=[],ways=[],pois=[],nid=(la,lo)=>{const k=la.toFixed(6)+','+lo.toFixed(6);let i=idx.get(k);if(i===undefined){i=nodes.length;idx.set(k,i);nodes.push([+la.toFixed(6),+lo.toFixed(6)])}return i};
+for(const el of d.elements){if(el.type==='way'&&el.geometry){const tg=el.tags||{};ways.push([tg.highway||'path',tg.lit==='yes'?1:tg.lit==='no'?0:.5,el.geometry.map(g=>nid(g.lat,g.lon)),tg.name||tg['name:en']||''])}else if(el.type==='node'&&el.tags&&el.tags.name){const tg=el.tags;pois.push([tg.name,+el.lat.toFixed(6),+el.lon.toFixed(6),tg.amenity||tg.shop||tg.tourism||tg.place||''])}}
+return{nodes,ways,pois,ts:Date.now()}}
+function setOsm(m){S.osmMsg=m;const e=$('#osmm');if(e)e.textContent=m}
+async function dlOSM(auto){const a=AREAS[S.area],dla=1600/111320,dlo=1600/(111320*REFC),bb=[a.la-dla,a.lo-dlo,a.la+dla,a.lo+dlo].map(v=>v.toFixed(5)).join(',');
+const q=`[out:json][timeout:60];(way["highway"~"^(trunk|primary|secondary|tertiary|unclassified|residential|living_street|service|pedestrian|footway|path|track|steps|cycleway)$"](${bb});node["name"]["amenity"](${bb});node["name"]["shop"](${bb});node["name"]["tourism"](${bb});node["name"]["place"](${bb}););out geom;`;
+setOsm('Downloading roads and places for '+a.n+'… this can take a minute.');let err='';
+for(const u of['https://overpass-api.de/api/interpreter','https://overpass.kumi.systems/api/interpreter']){try{const r=await fetch(u,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'data='+encodeURIComponent(q)});if(!r.ok)throw new Error('HTTP '+r.status);const d=await r.json();if(!d.elements||!d.elements.length)throw new Error('no map data returned');
+const c=compact(d),ok=sls('awaz_osm_'+a.id,JSON.stringify(c));loadArea(S.area);render();setOsm(`✅ ${a.n}: ${c.ways.length} roads and paths, ${c.pois.length} places saved${ok?' on this phone':' (storage full: kept for this session only)'}.`);return}catch(e){err=e.message}}
+setOsm('Could not download ('+err+'). Check internet and try again.')}
+/* ---------- risk engine: spam rules, DBSCAN, decay, hazards ---------- */
+function near(a,b){const A=cellMid(a.cell),B=cellMid(b.cell);if(hav(A,B)>650)return false;const n=Date.now(),rec=n-a.t<864e5&&n-b.t<864e5;return Math.abs(a.t-b.t)<=(rec?72e5:2592e6)}
+function dbscan(rs){const L=rs.map(()=>-2);let c=0;const nb=i=>rs.map((_,j)=>j).filter(j=>near(rs[i],rs[j]));
+rs.forEach((_,i)=>{if(L[i]!==-2)return;const n=nb(i);if(n.length<2){L[i]=-1;return}L[i]=c;const q=n.filter(j=>j!==i);while(q.length){const j=q.pop();if(L[j]===-1)L[j]=c;if(L[j]!==-2)continue;L[j]=c;const m=nb(j);if(m.length>=2)q.push(...m)}c++});return L}
+function analyse(){const now=Date.now(),pub=S.reports.filter(r=>!r.priv).sort((a,b)=>a.t-b.t),last={},sum={},dv={};HZ={};CN={};
+const ok=pub.filter(r=>{const k=r.d+r.cell+r.cat;if(last[k]!==undefined&&Math.abs(r.t-last[k])<216e5){r.dup=1;return false}last[k]=r.t;r.dup=0;return true}),L=dbscan(ok);
+ok.forEach((r,i)=>{r.cl=L[i];const age=(now-r.t)/36e5,w=r.sev*Math.pow(.5,age/(age<24?6:720))*(r.trust||.6)*(L[i]>=0?1.5:1);sum[r.cell]=(sum[r.cell]||0)+w;(dv[r.cell]=dv[r.cell]||new Set()).add(r.d);CN[r.cell]=(CN[r.cell]||0)+1;if(r.haz&&age<48)HZ[r.cell]=1});
+const R1={};for(const c in sum){let v=Math.min(1,sum[c]/4);if(dv[c].size<2&&!HZ[c])v=Math.min(v,.5);R1[c]=v}
+RK={...R1};for(const c in R1){const[i,j]=c.split(':').map(Number);for(let a=-1;a<=1;a++)for(let b=-1;b<=1;b++){if(!a&&!b)continue;const k=(i+a)+':'+(j+b);RK[k]=Math.max(RK[k]||0,R1[c]*.3)}}
+if(GR.edges.length){let tw=0,tr=0;ER=GR.edges.map(e=>{const l=e[4],v=Math.min(1,(RK[e[5]]||0)+(S.night?(1-l)*.3:(1-l)*.08)+(HZ[e[5]]?.25:0));tw+=e[2];tr+=e[2]*v;return v});IX=Math.round(100-40*tr/tw)}
+else{ER=[];IX=Math.round(100-25*Math.max(0,...Object.values(RK)))}}
+const idxLabel=i=>i>=90?'Very Low Reported Risk':i>=75?'Low Reported Risk':i>=50?'Moderate Caution':i>=25?'High Reported Risk':'Very High Reported Risk';
+const lvl=r=>r<.25?'g':r<.6?'y':'r',SYM={g:'✓',y:'!',r:'✕'},LBL={g:'Clear & Safe',y:'Use Caution',r:'High Reported Incidents'};
+/* ---------- routing: Dijkstra + binary heap ---------- */
+class Heap{constructor(){this.a=[]}get n(){return this.a.length}push(k,v){const a=this.a;a.push([k,v]);let i=a.length-1;while(i>0){const p=(i-1)>>1;if(a[p][0]<=a[i][0])break;[a[p],a[i]]=[a[i],a[p]];i=p}}
+pop(){const a=this.a,top=a[0],l=a.pop();if(a.length){a[0]=l;let i=0;for(;;){let c=2*i+1;if(c>=a.length)break;if(c+1<a.length&&a[c+1][0]<a[c][0])c++;if(a[i][0]<=a[c][0])break;[a[i],a[c]]=[a[c],a[i]];i=c}}return top}}
+function nearest(la,lo){let b=-1,d=1e18;GR.nodes.forEach((n,i)=>{if(!GR.adj[i].length)return;const x=(n[0]-la)**2+((n[1]-lo)*REFC)**2;if(x<d){d=x;b=i}});return b}
+function dij(s,tg,cost){const n=GR.nodes.length,d=new Float64Array(n).fill(1e18),pe=new Int32Array(n).fill(-1),pv=new Int32Array(n).fill(-1),h=new Heap();d[s]=0;h.push(0,s);
+while(h.n){const[k,u]=h.pop();if(k>d[u])continue;if(u===tg)break;for(const ei of GR.adj[u]){const e=GR.edges[ei],v=e[0]===u?e[1]:e[0],c=k+cost(ei);if(c<d[v]){d[v]=c;pv[v]=u;pe[v]=ei;h.push(c,v)}}}
+if(d[tg]>=1e17)return null;const es=[],ns=[tg];let u=tg;while(u!==s){es.unshift(pe[u]);u=pv[u];ns.unshift(u)}return{ns,es}}
+function summ(r){const es=r.es,dist=es.reduce((s,i)=>s+GR.edges[i][2],0)||1,rr=es.reduce((s,i)=>s+GR.edges[i][2]*ER[i],0)/dist,via=[];es.forEach(i=>{const nm=GR.edges[i][6];if(nm&&via[via.length-1]!==nm)via.push(nm)});
+return{...r,dist:Math.round(dist),min:Math.max(1,Math.round(dist/S.pace)),rr,l:rr<.25?'LOW':rr<.6?'MODERATE':'HIGH',hz:es.some(i=>HZ[GR.edges[i][5]]),via:via.slice(0,6)}}
+function findRoute(){if(!GR.nodes.length){modal('<h3>No road data yet</h3><p class="mu">Open MORE → Offline data and download roads for this area while online.</p>');return}
+if(!S.from||!S.to){toast('Choose a start and a destination');return}analyse();const s=nearest(S.from.la,S.from.lo),tg=nearest(S.to.la,S.to.lo);
+if(s<0||tg<0||s===tg){modal('<h3>Choose two different places</h3>');return}
+const safe=dij(s,tg,i=>{const e=GR.edges[i];return e[2]*(1+S.k*ER[i])*(HZ[e[5]]?8:1)}),short=dij(s,tg,i=>GR.edges[i][2]);
+if(!safe||!short){modal('<h3>No connected path found</h3><p class="mu">These points are not joined by mapped roads. Pick spots on main roads, or help map the missing link in OpenStreetMap.</p>');return}
+S.route={safe:summ(safe),short:summ(short)};S.fresh=1;vib();const ps=S.route.safe.ns.map(i=>GR.nodes[i]),la=ps.map(p=>p[0]),lo=ps.map(p=>p[1]);
+M.la=(Math.min(...la)+Math.max(...la))/2;M.lo=(Math.min(...lo)+Math.max(...lo))/2;
+for(let z=17;z>=12;z--){const sx=(wx(Math.max(...lo),z)-wx(Math.min(...lo),z)),sy=(wy(Math.min(...la),z)-wy(Math.max(...la),z));M.z=z;if(sx<M.w*.8&&sy<M.h*.8)break}
+render();setTimeout(()=>S.fresh=0,1400)}
+/* ---------- slippy satellite map ---------- */
+const TS=256,wx=(lo,z)=>(lo+180)/360*TS*2**z,wy=(la,z)=>{const s=Math.sin(la*Math.PI/180);return(.5-Math.log((1+s)/(1-s))/(4*Math.PI))*TS*2**z};
+const ux=(x,z)=>x/(TS*2**z)*360-180,uy=(y,z)=>{const n=Math.PI-2*Math.PI*y/(TS*2**z);return 180/Math.PI*Math.atan(.5*(Math.exp(n)-Math.exp(-n)))};
+const P=(la,lo)=>[wx(lo,M.z)-wx(M.lo,M.z)+M.w/2,wy(la,M.z)-wy(M.la,M.z)+M.h/2];
+const tu=(z,x,y)=>{const xx=((x%2**z)+2**z)%2**z;return S.sat?`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${y}/${xx}`:`https://tile.openstreetmap.org/${z}/${y}/${xx}.png`};
+function tiles(){const L=$('#tl');if(!L)return;let h='';if(S.sat){const z=M.z,cx=wx(M.lo,z),cy=wy(M.la,z);
+for(let x=Math.floor((cx-M.w/2)/TS);x<=Math.floor((cx+M.w/2)/TS);x++)for(let y=Math.floor((cy-M.h/2)/TS);y<=Math.floor((cy+M.h/2)/TS);y++)h+=`<img alt="" draggable="false" src="${tu(z,x,y)}" style="left:${x*TS-cx+M.w/2}px;top:${y*TS-cy+M.h/2}px" onerror="this.style.display='none'">`}L.innerHTML=h}
+const inV=(p,b)=>p[0]>=b[0]&&p[0]<=b[1]&&p[1]>=b[2]&&p[1]<=b[3];
+const curPick=()=>S.tab==='report'?'rep':S.pick;
+function overlay(){const o=$('#ov');if(!o)return;o.setAttribute('width',M.w);o.setAttribute('height',M.h);
+const cx=wx(M.lo,M.z),cy=wy(M.la,M.z),b=[uy(cy+M.h/2+40,M.z),uy(cy-M.h/2-40,M.z),ux(cx-M.w/2-40,M.z),ux(cx+M.w/2+40,M.z)],pt=(la,lo)=>P(la,lo).map(f1);let h='';
+if(GR.edges.length){const pg=['','',''];GR.edges.forEach((e,i)=>{const a=GR.nodes[e[0]],c=GR.nodes[e[1]];if(!inV(a,b)&&!inV(c,b))return;const A=pt(a[0],a[1]),B=pt(c[0],c[1]),r=ER[i],k=r<.25?0:r<.6?1:2;pg[k]+=`M${A[0]} ${A[1]}L${B[0]} ${B[1]}`});
+h+=`<path d="${pg[0]+pg[1]+pg[2]}" fill="none" stroke="#000" stroke-opacity=".55" stroke-width="${M.z>=16?6:4}" stroke-linecap="round"/><path d="${pg[0]}" fill="none" stroke="var(--g)" stroke-width="${M.z>=16?3:2}" stroke-linecap="round"/><path d="${pg[1]}" fill="none" stroke="var(--y)" stroke-width="4" stroke-linecap="round" stroke-dasharray="9 5"/><path d="${pg[2]}" fill="none" stroke="var(--r)" stroke-width="5" stroke-linecap="round"/>`}
+if(S.zones)for(const c in CN){const bx=cellBox(c),A=pt(bx[1],bx[2]),B=pt(bx[0],bx[3]),r=RK[c]||0,l=lvl(r),w=f1(B[0]-A[0]),hh=f1(B[1]-A[1]);
+h+=`<rect x="${A[0]}" y="${A[1]}" width="${w}" height="${hh}" rx="10" fill="var(--${l})" fill-opacity=".14" stroke="var(--${l})" stroke-width="1.5" stroke-dasharray="5 4" style="pointer-events:auto;cursor:pointer" onclick="cellInfo('${c}')"/>`;
+if(l==='r')h+=`<rect class="pr" x="${A[0]}" y="${A[1]}" width="${w}" height="${hh}" rx="10" fill="none" stroke="var(--r)" stroke-width="2"/>`;
+h+=`<text class="t" x="${f1(A[0]+w/2)}" y="${f1(A[1]+hh/2+4)}" text-anchor="middle" style="font-size:12px">${SYM[l]} ${CN[c]}${HZ[c]?' ⚠':''}</text>`}
+if(S.tab==='report'&&S.loc){const bx=cellBox(S.loc),A=pt(bx[1],bx[2]),B=pt(bx[0],bx[3]);h+=`<rect x="${A[0]}" y="${A[1]}" width="${f1(B[0]-A[0])}" height="${f1(B[1]-A[1])}" rx="10" fill="#fff" fill-opacity=".12" stroke="#fff" stroke-width="2.5" stroke-dasharray="8 5"/>`}
+if(S.route&&S.tab==='route'){const pl=r=>r.ns.map(i=>pt(GR.nodes[i][0],GR.nodes[i][1]).join(',')).join(' '),sh=S.route.short,sf=S.route.safe;
+if(sh.es.join()!==sf.es.join())h+=`<polyline points="${pl(sh)}" fill="none" stroke="#fff" stroke-width="3.5" stroke-dasharray="2 7" stroke-linecap="round" opacity=".9"/>`;
+h+=`<polyline ${S.fresh?'class="rt" pathLength="1"':''} points="${pl(sf)}" fill="none" stroke="#7dffc0" stroke-opacity=".5" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><polyline class="mr" points="${pl(sf)}" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="8 6" stroke-linecap="round"/>`}
+if(M.z>=12){AREA_LABELS.forEach(p=>{if(!inV([p.la,p.lo],b))return;const[x,y]=pt(p.la,p.lo);const nm=esc(p.n);h+=`<g class="area-label"><circle cx="${x}" cy="${f1(y)}" r="13" fill="#071225dd" stroke="#ffffff55"/><text x="${x}" y="${f1(y+5)}" text-anchor="middle" style="font-size:15px;pointer-events:none">${ICO(p.k)}</text><rect x="${f1(x-105)}" y="${f1(y+16)}" width="210" height="27" rx="12" fill="#071225ee" stroke="#ffffff35"/><text x="${x}" y="${f1(y+33)}" text-anchor="middle" style="font-size:11.5px;font-weight:900;fill:#fff;pointer-events:none">${nm}</text></g>`})}
+if(S.hv&&M.z>=14){let n=0;PL.forEach((p,i)=>{if(n>70||!HAV.has(p.k)||!inV([p.la,p.lo],b))return;n++;const[x,y]=pt(p.la,p.lo);const nm=esc(p.n||"Unnamed place");h+=`<g style="cursor:pointer" onclick="poiInfo(${i})"><circle cx="${x}" cy="${f1(y)}" r="15" fill="#071225cc" stroke="#ffffff33"/><text x="${x}" y="${f1(y+6)}" text-anchor="middle" style="font-size:18px;pointer-events:none">${ICO(p.k)}</text><rect x="${f1(x-70)}" y="${f1(y+17)}" width="140" height="22" rx="11" fill="#071225dd" stroke="#ffffff22"/><text x="${x}" y="${f1(y+32)}" text-anchor="middle" style="font-size:10px;font-weight:800;fill:#fff;pointer-events:none">${nm.slice(0,26)}</text></g>`})}
+[['from','A','#4aa8ff'],['to','B','#35e0a1']].forEach(([k,l,c])=>{const p=S[k];if(!p)return;const[x,y]=pt(p.la,p.lo);h+=`<circle cx="${x}" cy="${y}" r="12" fill="${c}" stroke="#fff" stroke-width="3"/><text x="${x}" y="${f1(y+4)}" text-anchor="middle" style="font-size:12px;font-weight:800;fill:#04210f">${l}</text>`});
+if(S.me){const[x,y]=pt(S.me[0],S.me[1]);h+=`<circle class="mk" cx="${x}" cy="${y}" r="12" fill="#4da3ff" fill-opacity=".5"/><circle cx="${x}" cy="${y}" r="7" fill="#4da3ff" stroke="#fff" stroke-width="3"/>`}
+o.innerHTML=h}
+function drawMap(){tiles();overlay()}
+function mapBox(hh,hint){return`<div id="mp" style="height:${hh}px"><div id="mv"><div id="tl"></div><svg id="ov"></svg></div><div class="mc"><button class="ib" onclick="zoom(1)" aria-label="Zoom in">＋</button><button class="ib" onclick="zoom(-1)" aria-label="Zoom out">－</button><button class="ib" onclick="locate()" aria-label="My location">📍</button><button class="ib" onclick="fit()" aria-label="Recenter">🎯</button></div>${hint?`<div class="hint">${hint}</div>`:''}<div class="at">${S.sat?'Imagery © Esri · ':''}© OpenStreetMap contributors</div></div><div class="map-place-list glass-shine"><b>📍 Chitral places</b><div class="map-place-grid">${AREA_LABELS.map((p,i)=>`<button class="place-chip" onclick="focusAreaLabel(${i})">${ICO(p.k)} <span>${esc(p.n)}</span></button>`).join('')}</div></div>`}
+function mapInit(){const el=$('#mp');if(!el)return;M.w=el.clientWidth;M.h=el.clientHeight;drawMap();bind(el)}
+function zoom(d){M.z=Math.max(12,Math.min(18,M.z+d));drawMap()}
+function fit(){const a=AREAS[S.area];M.la=a.la;M.lo=a.lo;M.z=14;drawMap()}
+function locate(then){if(!navigator.geolocation){modal('<h3>GPS unavailable</h3>');return}navigator.geolocation.getCurrentPosition(p=>{S.me=[p.coords.latitude,p.coords.longitude];M.la=S.me[0];M.lo=S.me[1];M.z=16;if(typeof then==='function')then();else drawMap()},()=>modal('<h3>Location unavailable</h3><p class="mu">Allow location permission and try again.</p>'),{enableHighAccuracy:true,timeout:9000})}
+function focusAreaLabel(i){const p=AREA_LABELS[i];M.la=p.la;M.lo=p.lo;M.z=16;drawMap();toast(p.n+' focused')}
+function mapTap(e){const r=$('#mp').getBoundingClientRect(),x=wx(M.lo,M.z)+e.clientX-r.left-M.w/2,y=wy(M.la,M.z)+e.clientY-r.top-M.h/2,la=uy(y,M.z),lo=ux(x,M.z),p=curPick();
+if(p==='rep'){S.loc=cellOf(la,lo);drawMap();updLoc();return}if(p){S[p]={la,lo,n:'Pinned spot'};S.pick=null;S.route=null;render()}}
+function bind(el){const ps=new Map(),mv=$('#mv');let st=null;const dist=()=>{const a=[...ps.values()];return a.length<2?0:Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1])};
+const cen=()=>{const a=[...ps.values()];return[a.reduce((s,p)=>s+p[0],0)/a.length,a.reduce((s,p)=>s+p[1],0)/a.length]};
+el.onpointerdown=e=>{if(e.target.closest('.mc'))return;ps.set(e.pointerId,[e.clientX,e.clientY]);st={c:cen(),d:dist(),dx:0,dy:0,s:1,mv:0}};
+el.onpointermove=e=>{if(!ps.has(e.pointerId)||!st)return;ps.set(e.pointerId,[e.clientX,e.clientY]);const c=cen();st.dx=c[0]-st.c[0];st.dy=c[1]-st.c[1];if(ps.size>1&&st.d)st.s=Math.max(.4,Math.min(3,dist()/st.d));st.mv=Math.max(st.mv,Math.abs(st.dx)+Math.abs(st.dy));if(st.mv>6)mv.style.transform=`translate(${st.dx}px,${st.dy}px) scale(${st.s})`};
+const end=()=>{if(!st)return;const z0=M.z,cx=wx(M.lo,z0)-st.dx/st.s,cy=wy(M.la,z0)-st.dy/st.s,z=Math.max(12,Math.min(18,z0+Math.round(Math.log2(st.s)))),f=2**(z-z0);M.lo=ux(cx*f,z);M.la=uy(cy*f,z);M.z=z;st=null;ps.clear();mv.style.transform='';drawMap()};
+el.onpointerup=e=>{const tap=st&&st.mv<6&&ps.size===1;end();if(tap&&curPick()&&!e.target.closest('.mc'))mapTap(e)};el.onpointercancel=end;el.onwheel=e=>{e.preventDefault();zoom(e.deltaY<0?1:-1)}}
+async function dlTiles(){const a=AREAS[S.area],el=$('#dlb'),list=[];for(let z=13;z<=17;z++){const mpp=156543.03*Math.cos(a.la*Math.PI/180)/2**z,d=1600/mpp,cx=wx(a.lo,z),cy=wy(a.la,z);
+for(let x=Math.floor((cx-d)/TS);x<=Math.floor((cx+d)/TS);x++)for(let y=Math.floor((cy-d)/TS);y<=Math.floor((cy+d)/TS);y++)list.push(tu(z,x,y))}
+const n=list.length;let done=0;const run=async()=>{while(list.length){const u=list.pop();await new Promise(r=>{const i=new Image();i.onload=i.onerror=r;i.src=u});done++;if(el)el.style.width=(done/n*100)+'%'}};
+await Promise.all([run(),run(),run(),run(),run(),run()]);S.dl=n;save();render();modal(`<h3>✅ Offline satellite area saved</h3><p class="mu">${n} tiles around ${a.n} are cached on this phone in the Android app. Do this once on Wi-Fi.</p>`)}
+
+/* ---------- shared audio-AI core (also used offline to build the starter model) ---------- */
+function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function fft(re,im){const n=re.length;for(let i=1,j=0;i<n;i++){let b=n>>1;for(;j&b;b>>=1)j^=b;j^=b;if(i<j){let x=re[i];re[i]=re[j];re[j]=x;x=im[i];im[i]=im[j];im[j]=x}}
+for(let l=2;l<=n;l<<=1){const a=-2*Math.PI/l;for(let i=0;i<n;i+=l)for(let k=0;k<l/2;k++){const c=Math.cos(a*k),s=Math.sin(a*k),p=i+k,q=p+l/2,x=re[q]*c-im[q]*s,y=re[q]*s+im[q]*c;re[q]=re[p]-x;im[q]=im[p]-y;re[p]+=x;im[p]+=y}}}
+const BW=Float64Array.from({length:1024},(_,i)=>.42-.5*Math.cos(2*Math.PI*i/1024)+.08*Math.cos(4*Math.PI*i/1024));
+function specDb(x,off){const N=1024,re=new Float64Array(N),im=new Float64Array(N);for(let i=0;i<N;i++)re[i]=(x[off+i]||0)*BW[i];fft(re,im);const o=new Float64Array(512);for(let k=0;k<512;k++)o[k]=20*Math.log10(Math.hypot(re[k],im[k])/N+1e-12);return o}
+function melBank(sr,nb){nb=nb||512;const mel=f=>2595*Math.log10(1+f/700),inv=m=>700*(10**(m/2595)-1),lo=mel(100),hi=mel(Math.min(8000,sr/2-1)),K=24,pts=[],out=[];
+for(let i=0;i<K+2;i++)pts.push(inv(lo+(hi-lo)*i/(K+1)));
+for(let k=0;k<K;k++){const a=pts[k],b=pts[k+1],c=pts[k+2],w=new Float32Array(nb);for(let i=0;i<nb;i++){const f=i*sr/2/nb;w[i]=f>a&&f<b?(f-a)/(b-a):f>=b&&f<c?(c-f)/(c-b):0}out.push(w)}return out}
+function fromFrames(fr){const K=24,L=fr.length,mu=[],o=[];for(let k=0;k<K;k++)mu.push(fr.reduce((s,f)=>s+f[k],0)/L);for(let k=0;k<K;k++)o.push(Math.sqrt(fr.reduce((s,f)=>s+(f[k]-mu[k])**2,0)/L));return mu.concat(o)}
+function clipFeat(x,mel){const fr=[];for(let f=0;f<20;f++){const s=specDb(x,f*2205);fr.push(mel.map(w=>{let p=0;for(let i=0;i<512;i++)if(w[i])p+=w[i]*10**(s[i]/10);return Math.log10(p+1e-12)*10}))}return fromFrames(fr)}
+const rmsOf=x=>{let s=0;for(let i=0;i<x.length;i++)s+=x[i]*x[i];return Math.sqrt(s/x.length)};
+function amb(r,n,sr){const x=new Float32Array(n),a=.01+r()*.05,hum=55+r()*120,ha=r()*.6,tilt=.3+r()*.6;let y=0,z=0,ph=0;
+for(let i=0;i<n;i++){y+=a*((r()+r()+r()+r()-2)*1.73-y);z+=.25*((r()+r()+r()+r()-2)*1.73-z);ph+=2*Math.PI*hum/sr;x[i]=y*8+z*tilt+ha*(Math.sin(ph)+.5*Math.sin(2*ph))+(r()<.0004?(r()-.5)*6:0)}return x}
+/* synthetic sounds: 0 bazaar ambience, 1 voiced speech (formants, syllables), 2 loud high-pitched shout (vibrato, breath) */
+function synth(c,r){const sr=44100,n=sr+1100,TP=2*Math.PI,A=amb(r,n,sr),Ar=rmsOf(A)||1;
+if(c===0){const k=(.01+r()*.14)/Ar;return A.map(v=>v*k)}
+const x=new Float32Array(n),p0=r()*TP;
+if(c===1){const f0=90+r()*140,F=[[300+r()*500,90],[900+r()*1200,120],[2200+r()*500,200]],H=Math.min(28,Math.floor(4500/f0)),ph=new Float64Array(H+1),syl=2.5+r()*3,amp=[];
+for(let h=1;h<=H;h++){let a=0;for(const[fc,bw]of F)a+=Math.exp(-((((f0*h)-fc)/bw)**2));amp.push(a/(1+h*.04)+.01)}
+for(let i=0;i<n;i++){const t=i/sr,e=.5+.5*Math.sin(TP*syl*t+p0),f=f0*(1+.06*Math.sin(TP*1.9*t));let s=0;for(let h=1;h<=H;h++){ph[h]+=TP*f*h/sr;s+=amp[h-1]*Math.sin(ph[h])}x[i]=s*(.25+.75*e*e)}}
+else{const f0=380+r()*520,F=[[800+r()*400,220],[1400+r()*500,260],[2700+r()*400,380]],H=Math.min(20,Math.floor(6500/f0)),ph=new Float64Array(H+1),vr=5+r()*2,vd=.015+r()*.05,amp=[];let z=0;
+for(let h=1;h<=H;h++){let a=0;for(const[fc,bw]of F)a+=Math.exp(-((((f0*h)-fc)/bw)**2));amp.push(a/(1+h*.015)+.03)}
+for(let i=0;i<n;i++){const t=i/sr,e=Math.min(1,t*10+.1)*(.85+.15*Math.sin(TP*2.3*t+p0)),f=f0*(1+vd*Math.sin(TP*vr*t)),g=(r()+r()+r()+r()-2)*1.73;z+=.5*(g-z);let s=(g-z)*.8;for(let h=1;h<=H;h++){ph[h]+=TP*f*h/sr;s+=amp[h-1]*Math.sin(ph[h])}x[i]=s*e}}
+const tg=c===1?.02+r()*.13:.06+r()*.34,k=tg/(rmsOf(x)||1),ar=(.1+r()*.5)*tg/Ar;for(let i=0;i<n;i++)x[i]=x[i]*k+A[i]*ar;return x}
+function predM(m,x){const H=m.H,D=m.D,w=m.q.map(v=>v*m.s),z=x.map((v,i)=>(v-m.mu[i])/m.sd[i]),h=[],l=[];
+for(let j=0;j<H;j++){let s=w[H*D+j];for(let i=0;i<D;i++)s+=w[j*D+i]*z[i];h.push(Math.tanh(s))}
+const o=H*D+H+3*H;for(let k=0;k<3;k++){let s=w[o+k];for(let j=0;j<H;j++)s+=w[H*D+H+k*H+j]*h[j];l.push(s)}
+const mx=Math.max(...l),e=l.map(v=>Math.exp(v-mx)),t=e.reduce((a,b)=>a+b,0);return e.map(v=>v/t)}
+function trainModel(X,Y,seed){const r=rng(seed||1),D=48,H=12,n=X.length,mu=Array(D).fill(0),sd=Array(D).fill(0),shuf=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+X.forEach(x=>x.forEach((v,i)=>mu[i]+=v/n));X.forEach(x=>x.forEach((v,i)=>sd[i]+=(v-mu[i])**2/n));sd.forEach((v,i)=>sd[i]=Math.sqrt(v)+1e-3);
+const Z=X.map(x=>x.map((v,i)=>(v-mu[i])/sd[i])),idx=shuf(Z.map((_,i)=>i)),nv=Math.max(3,Math.round(n*.2)),va=idx.slice(0,nv),tr=idx.slice(nv),ri=()=>(r()-.5)*.6;
+const W1=Array.from({length:H},()=>Array.from({length:D},ri)),b1=Array(H).fill(0),W2=Array.from({length:3},()=>Array.from({length:H},ri)),b2=[0,0,0];
+const fw=z=>{const h=W1.map((w,j)=>Math.tanh(w.reduce((s,x,i)=>s+x*z[i],b1[j]))),o=W2.map((w,k)=>w.reduce((s,x,j)=>s+x*h[j],b2[k])),m=Math.max(...o),e=o.map(v=>Math.exp(v-m)),s=e.reduce((a,b)=>a+b,0);return{h,p:e.map(v=>v/s)}};
+for(let ep=0;ep<400;ep++){const lr=ep<250?.05:.02;shuf(tr.slice()).forEach(i=>{const z=Z[i],y=Y[i],{h,p}=fw(z),d2=p.map((v,k)=>v-(k===y?1:0)),d1=h.map((hv,j)=>(1-hv*hv)*d2.reduce((s,dk,k)=>s+dk*W2[k][j],0));
+W2.forEach((w,k)=>w.forEach((_,j)=>w[j]-=lr*d2[k]*h[j]));b2.forEach((_,k)=>b2[k]-=lr*d2[k]);W1.forEach((w,j)=>w.forEach((_,q)=>w[q]-=lr*d1[j]*z[q]));b1.forEach((_,j)=>b1[j]-=lr*d1[j])})}
+const flat=[...W1.flat(),...b1,...W2.flat(),...b2],s=Math.max(...flat.map(Math.abs))/127,m={mu:mu.map(v=>+v.toFixed(3)),sd:sd.map(v=>+v.toFixed(3)),s:+s.toPrecision(6),q:flat.map(v=>Math.round(v/+s.toPrecision(6))),H,D,src:'device'};
+const acc=ids=>Math.round(100*ids.filter(i=>{const p=predM(m,X[i]);return p.indexOf(Math.max(...p))===Y[i]}).length/ids.length);
+return{m,acc:{tr:acc(tr),va:acc(va),n}}}
+
+const STARTER={"m":{"mu":[-43.897,-44.784,-45.134,-45.373,-46.058,-46.022,-46.356,-47.683,-47.796,-47.019,-45.596,-46.286,-47.3,-45.199,-44.228,-47.448,-50.836,-54.012,-54.742,-54.967,-55.094,-55.161,-55.273,-55.381,3.446,3.376,3.389,3.383,3.296,3.227,3.144,3.107,3.194,3.45,3.476,3.55,3.55,3.703,3.784,3.575,2.528,2.115,1.88,1.85,1.764,1.733,1.726,1.736],"sd":[6.8,6.501,6.556,6.368,6.6,7.888,9.031,9.012,8.945,8.693,9.888,9.415,8.104,7.721,9.221,11.155,10.996,8.205,7.973,8.421,8.818,9.184,9.499,9.796,0.61,0.619,0.667,0.817,0.861,1.022,1.011,1.172,1.321,1.628,1.658,1.713,1.756,1.717,1.93,1.95,1.244,0.747,0.53,0.548,0.614,0.651,0.661,0.732],"s":0.0108648,"q":[6,31,13,-6,22,-20,-11,-28,-25,12,2,9,3,-27,-9,-29,-17,-13,-16,-4,3,9,16,18,15,-6,-2,-7,-1,-4,-2,-6,-15,-6,-29,-25,-37,-26,-26,-9,-4,-19,-15,-15,15,-29,9,-18,-3,-22,16,-24,-3,-7,22,15,-10,25,19,19,23,13,29,10,-10,-21,-23,-23,-12,12,12,7,19,-21,1,-11,-12,17,-1,-12,27,17,-12,4,24,34,23,8,15,-4,-7,10,7,13,11,14,13,19,16,-7,7,2,7,-12,20,-12,15,-12,0,17,18,-4,8,-4,-35,-28,9,-17,-29,-9,8,10,17,4,28,20,16,2,-8,9,24,26,17,11,27,20,-5,-27,-23,-26,-33,-16,8,6,24,-10,-11,-3,17,-12,13,-3,13,19,-15,-33,0,-26,-19,-27,-23,14,5,2,6,-22,14,7,25,-12,-26,-24,-2,-18,-16,15,-9,19,-15,-4,-38,-6,-7,-16,-24,2,1,-23,-38,4,-21,-2,11,-5,18,-24,-24,3,14,-11,21,-6,-11,15,6,5,-4,36,12,18,-21,30,11,-5,-17,-1,8,8,-11,16,-7,-17,5,5,-9,24,-17,-17,27,-9,3,7,17,12,19,-7,42,33,9,2,11,18,-8,-9,-20,-1,-17,21,-11,-4,-13,2,-39,-12,-30,26,24,20,30,-11,19,17,13,15,7,-1,-5,-43,-4,-24,-6,-21,-19,4,17,-26,-17,5,-27,-38,10,3,4,5,26,-11,21,18,9,5,-14,-39,11,-30,0,1,14,6,12,22,7,29,37,36,25,23,14,-21,-23,28,-23,3,12,-1,20,-8,8,-7,19,16,-2,-11,-3,22,-18,-10,-3,14,6,23,33,6,34,30,-4,31,22,-15,3,20,-6,-12,16,3,-13,0,2,22,-31,-8,-31,7,17,-2,7,20,-4,7,-17,28,-17,7,5,0,-3,1,14,11,-29,-22,-23,12,-37,-36,-11,-28,15,8,-23,-3,19,-6,-14,15,11,-22,11,10,27,6,-13,-3,-12,-7,-27,-27,12,13,-24,5,5,-15,-5,-21,-4,12,6,-5,-11,18,2,28,-2,-8,-1,20,-5,19,-21,6,10,23,-14,21,-32,4,-24,-16,-28,-36,-36,-3,17,-5,-3,-14,-7,-18,9,20,3,3,20,2,2,-27,-2,-1,11,18,17,6,-7,-16,22,4,-1,-13,-22,-13,-22,-26,-18,1,-30,3,-22,-30,-19,-27,-32,-6,0,17,-17,-14,-2,25,25,33,5,-11,17,13,18,19,-14,-15,-27,11,-12,-28,-29,13,-37,-18,-17,-3,19,-8,-1,-11,9,7,-11,-6,21,-2,18,4,3,-14,-15,-17,6,12,20,-17,-5,-5,-14,-7,-10,-22,2,-37,-30,-53,-23,-29,-26,-15,6,0,4,-5,24,17,11,5,16,-7,16,1,-6,26,1,-12,35,-14,26,17,-15,8,18,-17,8,-16,15,4,-2,-15,-2,-13,-3,4,-1,-20,41,29,-1,-1,9,31,41,52,-52,35,-13,-32,-3,17,-7,-7,6,19,11,-11,116,-87,-42,88,-14,85,-67,36,20,73,76,-42,-65,27,92,-31,-16,-127,-28,-64,66,-114,49,-65,-51,47,-62,-49,59,64,89,-5,-76,54,-108,100,-21,11,10],"H":12,"D":48,"src":"starter"},"acc":{"tr":100,"va":100,"n":210}};
+const CLS=['Bazaar Noise','Normal Conversation','Distress Shouts'];
+const AU={ctx:null,an:null,st:null,X:[],Y:[],m:null,acc:null,on:false,p:[0,0,0],hit:0,cool:0,fr:[],rec:null,msg:'',score:0,last:null,noise:0,rms:0,voice:0,zcr:0,crest:0,centroid:0};
+try{const j=JSON.parse(ls('awaz_au'));if(j){AU.X=j.X||[];AU.Y=j.Y||[];AU.m=j.m||null;AU.acc=j.acc||null}}catch(e){}
+if(!AU.m){AU.m=STARTER.m;AU.acc=STARTER.acc}
+const pred=x=>predM(AU.m,x);
+const asave=()=>sls('awaz_au',JSON.stringify({X:AU.X,Y:AU.Y,m:AU.m,acc:AU.acc}));
+function buildMel(){AU.mel=melBank(AU.ctx.sampleRate,AU.an.frequencyBinCount)}
+function frame(){AU.an.getFloatFrequencyData(AU.buf);const v=AU.mel.map(w=>{let ss=0;for(let i=0;i<w.length;i++)if(w[i])ss+=w[i]*10**(AU.buf[i]/10);return Math.log10(ss+1e-12)*10});AU.fr.push(v);if(AU.fr.length>20)AU.fr.shift();try{AU.tbuf=AU.tbuf||new Float32Array(AU.an.fftSize);AU.an.getFloatTimeDomainData(AU.tbuf);let q=0,peak=0,z=0,prev=AU.tbuf[0]||0;for(let i=0;i<AU.tbuf.length;i++){const x=AU.tbuf[i];q+=x*x;peak=Math.max(peak,Math.abs(x));if((x>=0)!==(prev>=0))z++;prev=x}AU.rms=Math.sqrt(q/AU.tbuf.length);AU.peak=peak;AU.zcr=z/AU.tbuf.length;AU.crest=AU.rms?peak/AU.rms:0;AU.noise=AU.noise==null?AU.rms:Math.min(AU.rms,.985*AU.noise+.015*AU.rms);let total=0,voice=0,cent=0;for(let i=0;i<AU.buf.length;i++){const db=AU.buf[i];if(!Number.isFinite(db))continue;const a=10**(db/20),hz=i*AU.ctx.sampleRate/AU.an.fftSize;total+=a;cent+=hz*a;if(hz>=250&&hz<=3500)voice+=a}AU.voice=total?voice/total:0;AU.centroid=total?cent/total:0}catch(e){}}
+function feat(){return AU.fr.length<20?null:fromFrames(AU.fr)}
+async function micOn(){if(AU.an)return true;try{AU.st=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}});
+AU.ctx=new(window.AudioContext||window.webkitAudioContext)();const src=AU.ctx.createMediaStreamSource(AU.st);AU.an=AU.ctx.createAnalyser();AU.an.fftSize=1024;AU.an.smoothingTimeConstant=0;src.connect(AU.an);
+AU.buf=new Float32Array(AU.an.frequencyBinCount);buildMel();AU.fr=[];AU.tm=setInterval(frame,50);return true}
+catch(e){modal('<h3>Microphone unavailable</h3><p class="mu">Allow microphone permission to use the on-device acoustic AI.</p>');return false}}
+function micOff(){clearInterval(AU.tm);clearInterval(AU.li);AU.st&&AU.st.getTracks().forEach(t=>t.stop());AU.ctx&&AU.ctx.close();AU.an=AU.ctx=AU.st=null;AU.fr=[];AU.noise=0;AU.voice=0;AU.on=false}
+async function recCls(c){if(!(await micOn()))return;AU.rec=c;AU.msg='Recording '+CLS[c]+' for 8 s…';render();let n=0;
+const iv=setInterval(()=>{const f=feat();if(f){AU.X.push(f.map(x=>+x.toFixed(1)));AU.Y.push(c);n++}},500);await sleep(8500);clearInterval(iv);AU.rec=null;AU.msg=`Saved ${n} samples for ${CLS[c]}`;asave();if(!AU.on)micOff();render()}
+function train(){const cnt=[0,1,2].map(c=>AU.Y.filter(y=>y===c).length);if(cnt.some(n=>n<8)){modal(`<h3>More samples needed</h3><p class="mu">Record each class (8+ samples each) or add synthetic practice samples. Now: ${cnt.join(' / ')}.</p>`);return}
+const R=trainModel(AU.X,AU.Y,Date.now()&0xffff);AU.m=R.m;AU.acc=R.acc;asave();render();modal(`<h3>🧠 Model trained on-device</h3><p class="mu">Int8 weights: ${AU.m.q.length} (~${(AU.m.q.length/1024).toFixed(1)} KB). Accuracy: train ${AU.acc.tr}%, held-out ${AU.acc.va}%. Held-out samples come from the same sessions, so this is optimistic; test in real conditions.</p>`)}
+async function listen(){if(AU.on){micOff();render();return}if(!(await micOn()))return;AU.on=true;AU.hit=0;AU.streak=[];AU.cool=0;AU.msg='Listening locally — raw audio stays on this phone.';render();AU.li=setInterval(()=>{const noise=AU.noise||.002,energy=AU.rms||0,relative=energy/Math.max(noise,.003),voice=AU.voice||0,zcr=AU.zcr||0,crest=AU.crest||0,cent=AU.centroid||0;const energyScore=Math.min(1,Math.max(0,relative-1)/2.2),voiceScore=Math.min(1,Math.max(0,(voice-.08)/.28)),centScore=cent>=500&&cent<=3800?1:Math.max(0,1-Math.abs(cent-2100)/2600),zcrScore=zcr>.015&&zcr<.22?1:0,crestScore=Math.min(1,Math.max(0,(crest-2.2)/5)),acoustic=.34*energyScore+.25*voiceScore+.16*centScore+.12*zcrScore+.13*crestScore;const f=feat();let model=0;if(f&&AU.m){const p=pred(f);AU.p=AU.p.map((v,i)=>.65*v+.35*p[i]);model=Math.max(0,Math.min(1,p[2]))}const score=Math.max(acoustic,acoustic*.72+model*.28),trigger=S.thr||.58,hit=score>=trigger&&relative>=1.35&&voice>=.08;AU.score=score;AU.last={energy,relative,voice,zcr,crest,centroid:cent,acoustic,model};AU.streak.push(hit?1:0);if(AU.streak.length>7)AU.streak.shift();AU.hit=AU.streak.reduce((a,b)=>a+b,0);upBars();const st=$('#micState');if(st)st.textContent=score>=trigger?'⚠️ Possible distress pattern':score>=Math.max(.35,trigger-.18)?'👂 Strong voice/energy':'🎙️ Listening · background adapting';const sb=$('#micScore');if(sb)sb.textContent=Math.round(score*100)+'%';if(AU.hit>=4&&Date.now()>AU.cool){AU.cool=Date.now()+30000;AU.hit=0;AU.streak=[];vib([180,90,180]);modal('<h3>⚠️ Possible distress detected</h3><p>The local detector found a sustained high-energy vocal pattern. It is a safety trigger, not proof of an emergency.</p><button class="btn sos" onclick="this.closest(\'.mod\').remove();sendAlert()">SEND ALERT</button><button class="btn s" onclick="this.closest(\'.mod\').remove()">I\'m safe</button>')}},250);}
+function upBars(){AU.p.forEach((v,i)=>{const b=$('#pb'+i),t=$('#pv'+i);if(b)b.style.width=(v*100)+'%';if(t)t.textContent=Math.round(v*100)})}
+function testDistress(){modal('<h3>🧪 Distress detector demo</h3><p class="mu">Deterministic demo trigger for judges. It proves the emergency workflow without pretending a synthetic sound is a real-world AI classification.</p><button class="btn sos" onclick="this.closest(\'.mod\').remove();sendAlert()">TRIGGER DEMO ALERT</button>')} 
+function audioCard(){const cnt=[0,1,2].map(c=>AU.Y.filter(y=>y===c).length),st=AU.m&&AU.m.src==='starter';return`<div class="card"><b>🎙️ Local distress detector</b><div class="mu">Microphone audio is processed on this device. The trigger combines loudness change, vocal-band energy, spectral shape, zero-crossing rate, crest factor and the optional local model. It does <b>not</b> claim to understand speech or identify a person.</div><div class="glass-shine" style="padding:12px;border-radius:16px;margin:10px 0"><b id="micState">${AU.on?'🎙️ Listening':'⏸️ Ready'}</b><div class="mu">Detector score: <b id="micScore">${Math.round((AU.score||0)*100)}%</b></div></div><label>Detector sensitivity: ${S.thr.toFixed(2)}</label><input type="range" min=".5" max=".9" step=".05" value="${S.thr}" oninput="S.thr=+this.value;this.previousElementSibling.textContent='Detector sensitivity: '+S.thr.toFixed(2)"><button class="btn ${AU.on?'s':''}" onclick="listen()">${AU.on?'■ Stop listening':'👂 Start local detection'}</button><button class="btn sos" onclick="testDistress()">🧪 Test distress alert</button>${CLS.map((n,i)=>`<div class="br"><span>${n}</span><div class="prog"><i id="pb${i}" style="width:${AU.p[i]*100}%"></i></div><b id="pv${i}">${Math.round(AU.p[i]*100)}</b></div>`).join('')}<div class="mu"><b>${st?'Starter model installed; it is not treated as ground truth.':'Locally trained model enabled.'}</b></div><button class="btn s" onclick="selfTest()">🧪 Synthetic self-test</button><div class="mu"><b>Optional calibration:</b> record real examples from this phone and train locally in a safe, controlled setting.</div>${CLS.map((n,c)=>`<div style="display:flex;gap:8px;align-items:center;margin:6px 0"><button class="chip" ${AU.rec!==null?'disabled':''} onclick="recCls(${c})">⏺ ${n}</button><span class="mu">${cnt[c]} samples</span></div>`).join('')}<div class="mu">${AU.msg}</div><button class="btn s" onclick="train()">🧠 Train model on my samples</button><button class="btn s" onclick="addSyn()">➕ Add synthetic practice samples</button><button class="btn s" onclick="AU.X=[];AU.Y=[];AU.m=STARTER.m;AU.acc=STARTER.acc;asave();render()">Reset local model</button></div>`}
+async function addSyn(){modal('<h3>Generating…</h3><p class="mu" id="sgx">Synthesizing sounds on this phone.</p>');await sleep(60);const mel=melBank(44100),r=rng(Date.now()&0xffff);
+for(let c=0;c<3;c++)for(let i=0;i<10;i++){AU.X.push(clipFeat(synth(c,r),mel).map(v=>+v.toFixed(1)));AU.Y.push(c);await sleep(0)}asave();document.querySelectorAll('.mod').forEach(m=>m.remove());render()}
+async function selfTest(){modal('<h3>🧪 Self-test</h3><p id="stx" class="mu">Generating unseen synthetic clips and running the current model… a few seconds.</p>');await sleep(60);
+const mel=melBank(44100),r=rng(777),cm=[[0,0,0],[0,0,0],[0,0,0]];let ok=0;
+for(let c=0;c<3;c++)for(let i=0;i<12;i++){const p=pred(clipFeat(synth(c,r),mel)),k=p.indexOf(Math.max(...p));cm[c][k]++;if(k===c)ok++;await sleep(0)}
+const el=$('#stx');if(el)el.outerHTML=`<table><tr><td></td>${CLS.map(n=>`<td><b>→ ${n.split(' ')[0]}</b></td>`).join('')}</tr>${cm.map((row,c)=>`<tr><td><b>${CLS[c].split(' ')[0]}</b></td>${row.map(v=>`<td>${v}</td>`).join('')}</tr>`).join('')}</table><p><b>${Math.round(ok/36*100)}%</b> correct on 36 unseen synthetic clips.</p><p class="mu">Synthetic sounds are easier than real life. Real accuracy must be measured with recordings from your phone in real conditions.</p>`}
+
+/* ---------- helpers & views ---------- */
+function toast(m){const d=document.createElement('div');d.className='toast';d.textContent=m;document.body.appendChild(d);setTimeout(()=>d.remove(),2200)}
+function modal(h){const m=document.createElement('div');m.className='mod';m.innerHTML='<div>'+h+'<button class="btn s" onclick="this.closest(\'.mod\').remove()">Close</button></div>';document.body.appendChild(m)}
+const chip=(k,l)=>`<button class="chip ${S[k]?'s':''}" aria-pressed="${!!S[k]}" onclick="S.${k}=!S.${k};render()">${l}</button>`;
+function bars(o){const m=Math.max(1,...Object.values(o));return Object.entries(o).map(([k,v])=>`<div class="br"><span>${esc(k)}</span><div class="prog"><i style="width:${v/m*100}%"></i></div><b>${v}</b></div>`).join('')||'<div class="mu">No data yet.</div>'}
+function nearName(c){const m=cellMid(c);let b=null,d=450;PL.forEach(p=>{const x=hav(m,[p.la,p.lo]);if(x<d){d=x;b=p}});return b?'near '+b.n:''}
+function updLoc(){const e=$('#locTxt');if(e)e.textContent='Selected: a ~500 m square '+nearName(S.loc)}
+function placeInp(w){const v=S[w];return`<label>${w==='from'?'Start':'Destination'}</label><div class="row"><input id="in_${w}" type="text" autocomplete="off" placeholder="Type a place or road…" value="${v?esc(v.n):''}" oninput="sug('${w}',this.value)"><button class="ib" onclick="S.pick='${w}';render()" aria-label="Pick on map">🗺️</button><button class="ib" onclick="useMe('${w}')" aria-label="My location">📍</button></div><div id="sg_${w}"></div>`}
+function sug(w,q){q=q.trim().toLowerCase();const o=$('#sg_'+w);if(!q){o.innerHTML='';return}const m=[];PL.forEach((p,i)=>{if(m.length<7&&p.n.toLowerCase().includes(q))m.push(i)});
+o.innerHTML=m.map(i=>`<button class="sg" onclick="setP('${w}',${i})">${ICO(PL[i].k)} ${esc(PL[i].n)} <small class="mu">${esc(PL[i].k)}</small></button>`).join('')||'<div class="mu">No match. Download roads &amp; places in MORE.</div>'}
+function setP(w,i){const p=PL[i];S[w]={la:p.la,lo:p.lo,n:p.n};S.route=null;document.querySelectorAll('.mod').forEach(m=>m.remove());if(S.tab!=='route')S.tab='route';M.la=p.la;M.lo=p.lo;render()}
+function useMe(w){locate(()=>{S[w]={la:S.me[0],lo:S.me[1],n:'My location'};S.route=null;render()})}
+function chgArea(i){loadArea(i);save();render();if(!S.osm&&AREAS[i].id!=='drosh'&&navigator.onLine)dlOSM(true)}
+function cellInfo(c){analyse();const r=RK[c]||0,l=lvl(r);modal(`<h3>${SYM[l]} ${t(LBL[l])}</h3><p class="mu">A ~500 m square ${esc(nearName(c))}<br>Reports counted: ${CN[c]||0} · risk ${Math.round(r*100)}% ${HZ[c]?'· ⚠ active hazard':''}</p><p class="mu">A square turns red only when several different phones report it. One report can never do that alone.</p>`)}
+function poiInfo(i){const p=PL[i];modal(`<h3>${ICO(p.k)} ${esc(p.n)}</h3><p class="mu">${esc(p.k)} · from OpenStreetMap</p><button class="btn s" onclick="setP('from',${i})">Set as start</button><button class="btn" onclick="setP('to',${i})">Navigate here</button>`)}
+function legend(){return`<div class="chips">${['g','y','r'].map(l=>`<span class="chip" style="border-color:var(--${l})">${l==='g'?'🟢':l==='y'?'🟡':'🔴'} ${SYM[l]} ${t(LBL[l])}</span>`).join('')}</div>`}
+function view(){const a=AREAS[S.area],noData=!S.osm&&a.id!=='drosh';
+if(S.tab==='map')return`<div class="v"><div class="card hero"><div class="rg"><svg viewBox="0 0 92 92"><defs><linearGradient id="gr"><stop offset="0" stop-color="#35e0a1"/><stop offset="1" stop-color="#4aa8ff"/></linearGradient></defs><circle cx="46" cy="46" r="37" stroke="var(--line)"/><circle id="rc" cx="46" cy="46" r="37" stroke="url(#gr)" stroke-dasharray="0 233"/></svg><b id="ixn">0</b></div><div><b>${t('Safety Index')} · ${idxLabel(IX)}</b><div class="mu">${esc(a.n)} · community-reported, ${S.night?'night':'day'} conditions. Not an official rating.</div></div></div>
+<select aria-label="Area" onchange="chgArea(+this.value)">${AREAS.map((x,i)=>`<option value="${i}" ${i===S.area?'selected':''}>${esc(x.n)}</option>`).join('')}</select>
+${noData?`<div class="card"><b>Roads for ${esc(a.n)} are not on this phone yet</b><div class="mu">Download every road, lane and footpath once while online.</div><button class="btn" onclick="dlOSM()">⬇️ Download roads &amp; places</button><div class="mu" id="osmm">${esc(S.osmMsg)}</div></div>`:''}
+<div class="chips">${chip('sat','🛰️ Satellite')}${chip('zones','Zones')}${chip('hv','Safe havens')}${chip('night','🌙 Night')}</div>${mapBox(360)}${legend()}
+<div class="grid"><button class="btn s" onclick="go('route')">🧭 ${t('SAFE ROUTE')}</button><button class="btn s" onclick="go('report')">📝 ${t('REPORT')}</button></div><button class="btn sos" onclick="go('alert')">🚨 ${t('ALERT')}</button></div>`;
+if(S.tab==='route'){let r='';if(S.route){const c=(h,x)=>`<div class="card"><b>${h}</b><div style="font-size:1.5rem;font-weight:800">${x.dist} m · ${x.min} min</div><div>Risk level: <b style="color:var(--${x.l==='LOW'?'g':x.l==='HIGH'?'r':'y'})">${x.l}</b>${x.hz?' · ⚠ passes a hazard report':''}</div><div class="mu">via ${x.via.length?esc(x.via.join(' → ')):'unnamed paths'}</div></div>`,f=S.route.safe,s=S.route.short;
+r=`<h3 style="color:var(--acc)">${f.es.join()===s.es.join()?'BEST ROUTE FOUND':'SAFER ROUTE FOUND'}</h3>${c('🟢 Recommended',f)}${c('Shortest route',s)}<p class="mu"><b>The shortest route is not always the safest.</b> Cost = length × (1 + ${S.k} × risk); hazards ×8; Dijkstra.</p><button class="btn s" onclick="explainRoute()">🤖 Explain with AI</button>`}
+return`<div class="v"><h2>${t('SAFE ROUTE')}</h2>${mapBox(300,S.pick?'Tap the map to set the '+(S.pick==='from'?'start':'destination'):'')}<div class="card">${placeInp('from')}${placeInp('to')}<label>Safety priority: ${S.k} (0 = fastest, 6 = safest)</label><input type="range" min="0" max="6" step="1" value="${S.k}" oninput="S.k=+this.value;this.previousElementSibling.textContent='Safety priority: '+S.k+' (0 = fastest, 6 = safest)'"><label for="pc">Walking pace</label><select id="pc" onchange="S.pace=+this.value"><option value="80" ${S.pace===80?'selected':''}>Normal</option><option value="55" ${S.pace===55?'selected':''}>Slow / carrying a load</option><option value="45" ${S.pace===45?'selected':''}>Elderly / child</option></select>${chip('night','🌙 Night conditions')}</div><button class="btn" onclick="findRoute()">${t('FIND SAFER ROUTE')}</button>${r}</div>`}
+if(S.tab==='report'){const sup=S.priv||S.when>=3?`<div class="card"><b>You are not alone</b><div class="mu">Reporting something that happened a while ago is valid. A private entry is encrypted and only you can read it. If you want to talk to someone, free helplines: 1099 (Ministry of Human Rights) and 0800-39393 (online harassment).</div></div>`:'';
+return`<div class="v"><h2>Anonymous Safety Report</h2><p class="mu">No name. No phone number. No free text on public reports.</p><div class="grid">${Object.entries(CAT).map(([c,v])=>`<button class="cat ${S.cat===c?'sel':''}" aria-pressed="${S.cat===c}" onclick="S.cat='${c}';vib();render()"><span style="font-size:1.7rem">${v[1]}</span><br>${c}</button>`).join('')}</div>
+<div class="card"><b>When did it happen?</b><div class="chips">${WHEN.map((w,i)=>`<button class="chip ${S.when===i?'s':''}" onclick="S.when=${i};render()">${w[0]}</button>`).join('')}</div></div>
+<div class="card"><b>Where?</b><div class="mu" id="locTxt"></div>${mapBox(230,'Tap the map to choose the place')}<button class="btn s" onclick="repHere()">📍 Use my location</button><div class="mu">🔒 Only the ~500 m square is kept, never your exact spot.</div></div>
+<div class="card"><label class="row" style="color:var(--ink)"><input type="checkbox" style="width:24px;height:24px;margin:0" ${S.priv?'checked':''} onchange="S.priv=this.checked;render()"> 🔒 Keep private: encrypted diary, not on the map</label>${S.priv?`<textarea placeholder="Optional private note. Encrypted on this phone, never uploaded." oninput="S.note=this.value">${esc(S.note).replace(/<br>/g,'\n')}</textarea>`:''}</div>${sup}
+<button class="btn" ${S.cat?'':'disabled'} onclick="submitRep()">${S.priv?'SAVE PRIVATELY':t('SUBMIT ANONYMOUSLY')}</button><p class="mu">${S.reports.filter(r=>!r.priv).length} public reports on this phone (${S.reports.filter(r=>r.demo).length} are fictional demo data).</p></div>`}
+if(S.tab==='alert'){const al=S.alerts.map(x=>{const ex=Date.now()-x.ts>864e5;return`<div class="card"><b>${x.id}</b> · <span class="badge ${/Sent|Delivered/.test(x.status)?'on':'off'}">${ex?'Expired':esc(x.status)}</span><div class="mu">Created ${ago(x.ts)} · TTL ${x.ttl} · encrypted</div>${NAT?`<button class="btn s" onclick="resend('${x.id}')">Resend to nearby phones</button>`:`<button class="btn s" ${x.busy||x.status==='Delivered (simulated)'?'disabled':''} onclick="relay('${x.id}')">Simulate relay (preview only)</button>`}${x.log.length?'<ul class="log">'+x.log.map(l=>`<li>${esc(l)}</li>`).join('')+'</ul>':''}</div>`}).join('');
+const inb=S.inbox.map(x=>`<div class="card"><b>🚨 Alert from a nearby phone</b><div class="mu">${ago(x.t)} · ${x.hop} hop${x.hop>1?'s':''} · ${esc(nearName(x.cell))||'~500 m square'}</div><button class="btn s" onclick="showCell('${x.cell}')">Show on map</button></div>`).join('');
+const w=S.walk?`<div class="glass glass-shine" style="padding:18px;border-radius:22px;text-align:center"><div class="tm" id="wt">--:--</div><div id="walkPhase" class="mu">🟢 Timer active · cancel when you arrive</div><div style="height:8px;background:#ffffff12;border-radius:99px;overflow:hidden;margin:14px 0"><i id="walkProgress" style="display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:99px"></i></div><button class="btn" onclick="walkStop()">✓ I'm safe — cancel timer</button></div>`:`<label for="wm">Walk-home timer</label><select id="wm">${[10,20,30,45,60].map(m=>`<option value="${m}">${m} min</option>`).join('')}</select><button class="btn s" onclick="walkStart()">▶ Start safe-walk timer</button>`;return`<div class="v"><h2>Offline Emergency</h2><button class="btn sos" onclick="sendAlert()">🚨 ${t('SEND OFFLINE ALERT')}</button><a class="btn s" href="${smsHref()}" onclick="return smsOk()">✉️ SOS by SMS to trusted contacts (works without data)</a><p class="mu">Alerts are AES-GCM encrypted and stored on this phone, even in Airplane Mode.</p>
+<div class="card glass glass-shine"><b>🗺️ Chitral map</b><div class="mu">Main-area labels are built into AWAZ AI. The map uses OpenStreetMap/Esri imagery; Google Maps API is not required.</div></div><div class="card glass glass-shine"><b>📡 Nearby relay</b><button class="btn s" onclick="startDeviceReceiver()">📥 Make this device a receiver</button><button class="btn s" onclick="sendToDevice()">📡 Send latest alert to receiver</button>${NAT?`<div class="radar"><i></i><i></i><i></i><b>${S.peers}</b></div><div class="mu" style="text-align:center">${S.mesh?S.peers+' AWAZ phone'+(S.peers===1?'':'s')+' connected nearby':'Relay is off'}</div><button class="btn ${S.mesh?'s':''}" onclick="toggleMesh()">${S.mesh?'■ Turn off nearby relay':'📡 Turn on nearby relay'}</button><div class="mu">Phone-to-phone over Bluetooth/Wi-Fi Direct. Only phones with the same community key can read alerts. Delivery is not guaranteed.</div>`:`<div class="mu">Browser device demo: WebRTC can send the encrypted alert to a second device while both are online. True offline phone-to-phone relay is the Android Nearby Connections feature and should be demonstrated with the Android build.</div>`}</div>
+<div class="card"><b>⏱️ Safe-walk timer</b><div class="mu">If you do not cancel it, an alert is created after a 15 s warning.</div>${w}</div>${inb}${al||'<p class="mu">No alerts yet.</p>'}${audioCard()}</div>`}
+const cat={},tb={'Day (06–18)':0,'Evening (18–22)':0,'Night (22–06)':0};S.reports.filter(r=>!r.priv&&!r.dup).forEach(r=>{cat[r.cat]=(cat[r.cat]||0)+1;const h=new Date(r.t).getHours();tb[h>=6&&h<18?'Day (06–18)':h>=18&&h<22?'Evening (18–22)':'Night (22–06)']++});
+return`<div class="v"><h2>${t('MORE')}</h2><button class="btn s" onclick="truth()">ℹ️ What is real AI &amp; what is demo</button>${aiCard()}
+<div class="card"><b>📞 Emergency numbers</b><div class="mu">National lines. Verify before relying on them, and add local Chitral numbers below.</div>${NUMS.concat(S.nums.map(n=>[n[0],n[1],'Added by you'])).map(n=>`<div class="num"><div><b>${esc(n[0])}</b><div class="mu">${esc(n[2])}</div></div><a href="tel:${esc(n[1])}">📞 ${esc(n[1])}</a></div>`).join('')}<input id="nn" type="text" placeholder="Name (e.g. Chitral hospital)"><input id="np" type="tel" placeholder="Number"><button class="btn s" onclick="addN()">Add number</button></div>
+<div class="card"><b>👥 Trusted contacts</b><div class="mu">Saved only on this phone. Used for the SMS SOS.</div>${S.contacts.map((c,i)=>`<div class="num"><span>${esc(c.n)} · ${esc(c.p)}</span><button class="ib" aria-label="Remove" onclick="S.contacts.splice(${i},1);save();render()">✕</button></div>`).join('')}<input id="cn" type="text" placeholder="Name"><input id="cp" type="tel" placeholder="Phone (+92...)"><button class="btn s" onclick="addC()">Add contact</button></div>
+<div class="card"><b>🔒 My private diary</b><div class="mu">Encrypted on this phone. Never on the map, never uploaded.</div>${S.diary.map(d=>`<div class="num"><span>Entry · ${ago(d.ts)}</span><button class="chip" onclick="diaryOpen('${d.id}')">Open</button></div>`).join('')||'<div class="mu">No private entries.</div>'}</div>
+<div class="card"><b>🗺️ Offline data</b><div class="mu">${esc(a.n)}: roads ${S.osm?'saved':'not downloaded'} · satellite ${S.dl?S.dl+' tiles saved':'not downloaded'}</div><button class="btn s" onclick="dlOSM()">⬇️ Download roads &amp; places</button><div class="mu" id="osmm">${esc(S.osmMsg)}</div><div class="prog"><i id="dlb" style="width:${S.dl?100:0}%"></i></div><button class="btn s" onclick="dlTiles()">⬇️ Download satellite tiles (~3 km)</button>
+<div class="mu" style="margin-top:8px">Cover another place in Chitral: pan the map there, then add it as a pack.</div><input id="pn" type="text" placeholder="Pack name (e.g. Booni)"><button class="btn s" onclick="addPack()">➕ Add pack at map centre and download</button></div>
+<div class="card"><b>⚙️ Options</b><div class="chips">${chip('ps','🔋 Power saver')}<button class="chip" onclick="S.lang=S.lang==='en'?'ur':'en';save();render()">${S.lang==='en'?'اردو':'English'}</button></div><label>Community relay key (same on all phones in your group)</label><input type="text" value="${esc(ls('awaz_mk')||'awaz-chitral')}" onchange="sls('awaz_mk',this.value.trim()||'awaz-chitral')"></div>
+<div class="card"><b>📊 Insights (this phone)</b>${bars(cat)}<div class="mu" style="margin-top:8px">By time of day</div>${bars(tb)}</div></div>`}
+function render(){analyse();document.body.classList.toggle('ps',S.ps);document.body.dir=S.lang==='ur'?'rtl':'ltr';const off=S.off||!navigator.onLine;
+$('#net').className='badge '+(off?'off':'on');$('#net').textContent=off?'OFFLINE MODE':'ONLINE (not required)';$('#main').innerHTML=view();
+$('#nav').innerHTML=[['map','🗺️','MAP'],['route','🧭','SAFE ROUTE'],['report','📝','REPORT'],['alert','🚨','ALERT'],['more','☰','MORE']].map(([k,i,l])=>`<button class="${S.tab===k?'a':''}" onclick="go('${k}')" aria-label="${l}"><span>${i}</span>${t(l)}</button>`).join('');
+mapInit();updLoc();const rc=$('#rc');if(rc){requestAnimationFrame(()=>requestAnimationFrame(()=>rc.setAttribute('stroke-dasharray',`${Math.max(0,IX)*2.325} 233`)));const n=$('#ixn'),t0=performance.now();(function f(tm){const p=Math.min(1,(tm-t0)/900);n.textContent=Math.round(IX*p);if(p<1)requestAnimationFrame(f)})(t0)}}
+function go(x){S.tab=x;S.pick=null;render();scrollTo(0,0)}
+function showCell(c){const m=cellMid(c);M.la=m[0];M.lo=m[1];M.z=16;go('map')}
+/* ---------- reports ---------- */
+async function submitRep(){const c=S.cat;if(!c)return;if(!S.loc)S.loc=cellOf(M.la,M.lo);const w=WHEN[S.when],t=Date.now()-w[1]*864e5;
+if(S.priv){const note=(S.note||'').slice(0,600);try{const e=await enc({cat:c,when:w[0],cell:S.loc,note});S.diary.unshift({id:'p'+Date.now().toString(36),ts:Date.now(),enc:e});save();S.cat=null;S.note='';render();modal('<h3>🔒 Saved privately</h3><p>Only you can read this entry. It is encrypted on this phone and is not on the map. You can find it in MORE → My private diary, and share it anonymously later if you choose.</p>')}catch(x){modal('<h3>Cannot encrypt here</h3><p class="mu">Open the app over HTTPS (the Android app works).</p>')}return}
+const mine=S.reports.filter(r=>r.d===S.dev&&!r.demo&&Date.now()-r.ts<864e5).length;
+if(mine>=5){modal('<h3>Daily limit reached</h3><p class="mu">Each phone can send 5 public reports per day. This protects the map from spam. You can still save entries privately or use SOS.</p>');return}
+const recent=S.reports.find(r=>!r.demo&&!r.priv&&r.d===S.dev&&r.cat===c&&r.cell===S.loc&&Date.now()-r.ts<15*60e3);if(recent){modal('<h3>Duplicate report blocked</h3><p class="mu">The same category was already reported for this area from this phone recently.</p>');return}
+let trust=w[2];if(S.when===0){trust=S.me&&hav(S.me,cellMid(S.loc))<=800?1:.6}
+const id=(await sha(S.dev+c+S.loc+Date.now())).slice(0,12);S.reports.push({id,cat:c,cell:S.loc,sev:CAT[c][0],haz:CAT[c][2]&&S.when<=1?1:0,t,ts:Date.now(),d:S.dev,trust,when:S.when});save();S.cat=null;vib();render();
+modal(`<h3>✅ Report Stored Safely</h3><p>Your report has been added to the local safety dataset.</p><p class="mu">${S.off||!navigator.onLine?'Offline Mode — Report will remain on this device until a supported synchronization opportunity exists.':'Stored on this phone first; nothing is uploaded by this prototype.'}</p><p class="mu">Pseudonymous ID: ${id}<br>${trust>=1?'Counted at full weight (you were on site).':'Counted at reduced weight (not confirmed on site or not recent).'} A zone turns red only when several phones report it.</p>`)}
+function repHere(){locate(()=>{S.loc=cellOf(S.me[0],S.me[1]);drawMap();updLoc()})}
+async function diaryOpen(id){const d=S.diary.find(x=>x.id===id);if(!d)return;try{const o=await dec(d.enc);modal(`<h3>🔒 Private entry</h3><p>${CAT[o.cat]?CAT[o.cat][1]:''} <b>${esc(o.cat)}</b> · ${esc(o.when)}</p><p class="mu">Saved ${ago(d.ts)} · ${esc(nearName(o.cell))||'~500 m square'}</p>${o.note?`<p>${esc(o.note)}</p>`:''}<button class="btn s" onclick="diaryShare('${id}')">Share anonymously to the map</button><button class="btn s" onclick="diaryDel('${id}')">Delete this entry</button>`)}catch(e){modal('<h3>Cannot open entry</h3>')}}
+async function diaryShare(id){const d=S.diary.find(x=>x.id===id);try{const o=await dec(d.enc),wi=Math.max(0,WHEN.findIndex(w=>w[0]===o.when));S.reports.push({id:(await sha(id+Date.now())).slice(0,12),cat:o.cat,cell:o.cell,sev:CAT[o.cat][0],haz:0,t:Date.now()-WHEN[wi][1]*864e5,ts:Date.now(),d:S.dev,trust:.4,when:wi});save();document.querySelectorAll('.mod').forEach(m=>m.remove());render();toast('Shared anonymously (no note)')}catch(e){}}
+function diaryDel(id){S.diary=S.diary.filter(x=>x.id!==id);save();document.querySelectorAll('.mod').forEach(m=>m.remove());render()}
+function addC(){const n=$('#cn').value.trim(),p=$('#cp').value.trim();if(!n||p.replace(/\D/g,'').length<5){modal('<h3>Enter a name and a valid number</h3>');return}S.contacts.push({n,p});save();render()}
+function addN(){const n=$('#nn').value.trim(),p=$('#np').value.trim();if(!n||p.replace(/[^\d]/g,'').length<2){modal('<h3>Enter a name and a number</h3>');return}S.nums.push([n,p.replace(/[^\d+\-]/g,'')]);save();render()}
+async function addPack(){const n=$('#pn').value.trim();if(!n){modal('<h3>Enter a name for this pack</h3>');return}const p={id:'p'+Date.now().toString(36),n,la:+M.la.toFixed(5),lo:+M.lo.toFixed(5)};AREAS.push(p);S.packs.push(p);S.area=AREAS.length-1;save();loadArea(S.area);S.tab='map';render();dlOSM()}
+/* ---------- browser device relay demo (real WebRTC data channel; internet required) ---------- */
+let peerDemo=null,peerConn=null;
+function startDeviceReceiver(){if(!window.Peer){modal('<h3>Receiver library unavailable</h3><p class="mu">Connect to the internet and reload the app.</p>');return}if(peerDemo){modal('<h3>📡 Receiver ready</h3><p>Give the sender this receiver code:</p><div class="glass" style="font-size:1.5rem;text-align:center;padding:14px;letter-spacing:.12em">'+esc(peerDemo.id||'Connecting…')+'</div><p class="mu">Keep this screen open. This is a real browser-to-browser WebRTC demo, not Bluetooth.</p>');return}peerDemo=new Peer();peerDemo.on('open',id=>modal('<h3>📡 Receiver ready</h3><p>Give the sender this code:</p><div class="glass" style="font-size:1.5rem;text-align:center;padding:14px;letter-spacing:.12em">'+esc(id)+'</div><p class="mu">Keep this screen open. The sender can connect and transmit the encrypted alert packet.</p>'));peerDemo.on('connection',conn=>{peerConn=conn;conn.on('data',d=>{try{const p=typeof d==='string'?JSON.parse(d):d;if(p.type==='awaz-alert'){S.inbox.unshift({id:p.id,cell:p.cell,t:p.t,hop:1});S.inbox=S.inbox.slice(0,30);save();vib([300,150,300]);toast('🚨 Alert received on this device');render()}}catch(e){}});});peerDemo.on('error',e=>toast('Receiver error: '+e.type))}
+function sendToDevice(){if(!window.Peer){modal('<h3>Device relay unavailable</h3><p class="mu">Connect to the internet and reload the app.</p>');return}const id=prompt('Enter the receiver device code:');if(!id)return;const a=S.alerts[0];if(!a){toast('Create an alert first');return}const conn=new Peer().connect(id,{reliable:true});conn.on('open',()=>{conn.send({type:'awaz-alert',id:a.id,cell:myCell(),t:a.ts,enc:a.pkt});a.status='Delivered to browser receiver';a.sent=1;a.log.push(new Date().toLocaleTimeString()+' delivered to receiver via WebRTC');save();render();toast('📡 Alert sent to receiver device')});conn.on('error',()=>modal('<h3>Could not connect</h3><p class="mu">Check the receiver code and make sure both devices are online.</p>'))}
+/* ---------- emergency ---------- */
+const myCell=()=>S.me?cellOf(S.me[0],S.me[1]):cellOf(M.la,M.lo);
+function smsHref(){const n=S.contacts.map(c=>c.p.replace(/[^+\d]/g,'')).join(','),d=new Date();return`sms:${n}?body=${encodeURIComponent(`AWAZ AI SOS: I need help. Approx area: ${AREAS[S.area].n} (grid ${myCell()}). Time ${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}.`)}`}
+function smsOk(){if(!S.contacts.length){modal('<h3>Add a trusted contact first</h3><p class="mu">Go to MORE → Trusted contacts.</p>');return false}return true}
+function tryFlush(a){if(NAT&&S.peers>0&&!a.sent){const n=NAT.send(a.pkt);if(n>0){a.sent=n;a.status='Sent to '+n+' phone'+(n>1?'s':'');a.log.push(new Date().toLocaleTimeString()+' sent to '+n+' nearby phone(s)')}}}
+function flushAlerts(){S.alerts.forEach(a=>{if(Date.now()-a.ts<864e5)tryFlush(a)});save()}
+function resend(id){const a=S.alerts.find(x=>x.id===id);if(!a)return;a.sent=0;tryFlush(a);if(!a.sent)toast('No nearby AWAZ phones yet');save();render()}
+async function sendAlert(){try{const ts=Date.now(),cell=myCell(),e=await enc({v:1,cell,t:ts}),id='AL-'+(await sha(e)).slice(0,8),pkt=JSON.stringify({id,ts,ttl:5,hop:0,v:1,enc:await enc({v:1,cell,t:ts},await meshKey())}),a={id,enc:e,pkt,ts,ttl:5,hop:0,status:'Pending Relay',sent:0,log:[],busy:0};
+S.alerts.unshift(a);tryFlush(a);save();vib([200,100,200]);S.tab='alert';render();modal(`<h3>🚨 Alert stored securely</h3><p>Status: ${esc(a.status)}.</p><p class="mu">${NAT?'It is sent to nearby AWAZ phones as they connect.':'Preview mode: relay is simulated.'} Also call 1122 or 15 if you can.</p>`)}catch(x){modal('<h3>Encryption unavailable</h3><p>No alert was created: this context cannot encrypt.</p>')}}
+async function relay(id){const a=S.alerts.find(x=>x.id===id);if(!a||a.busy)return;a.busy=1;render();for(const h of['Phone B','Phone C','Gateway node']){await sleep(900);a.ttl--;a.hop++;a.log.push('→ '+h+' accepted (simulated, hop '+a.hop+')');a.status=h==='Gateway node'?'Delivered (simulated)':'Relayed (simulated)';vib();render()}a.busy=0;save();render()}
+window.AWAZ_peers=n=>{S.peers=n;if(n>0)flushAlerts();if(S.tab==='alert')render()};
+window.AWAZ_rx=async s=>{try{const p=JSON.parse(s);if(!p.id||S.seen.includes(p.id))return;let o;try{o=await dec(p.enc,await meshKey())}catch(e){return}
+S.seen.push(p.id);S.inbox.unshift({id:p.id,cell:o.cell,t:o.t,hop:(p.hop||0)+1});S.inbox=S.inbox.slice(0,30);save();vib([300,150,300]);
+if(p.ttl>1&&NAT)NAT.send(JSON.stringify({...p,ttl:p.ttl-1,hop:(p.hop||0)+1}));
+modal(`<h3>🚨 Emergency alert nearby</h3><p>Someone close to you sent an alert ${ago(o.t)} (${(p.hop||0)+1} hop${(p.hop||0)?'s':''} away), ${esc(nearName(o.cell))||'in a ~500 m square'}.</p><button class="btn" onclick="this.closest('.mod').remove();showCell('${o.cell}')">Show on map</button>`);render()}catch(e){}};
+function toggleMesh(){S.mesh=S.mesh?0:1;if(NAT){S.mesh?NAT.start():NAT.stop()}if(!S.mesh)S.peers=0;save();render()}
+let wI=0;
+function walkStart(){S.walkStart=Date.now();S.walk=S.walkStart+(+$('#wm').value)*6e4;S.grace=0;clearInterval(wI);wI=setInterval(walkTick,1000);render();walkTick()}
+function walkTick(){if(!S.walk)return;const r=S.walk-Date.now(),el=$('#wt'),bar=$('#walkProgress'),ph=$('#walkPhase'),total=(S.walk-S.walkStart)||1;if(r>0){if(el)el.textContent=String(Math.floor(r/6e4)).padStart(2,'0')+':'+String(Math.floor(r/1e3)%60).padStart(2,'0');if(bar)bar.style.width=Math.max(0,Math.min(100,((total-r)/total)*100))+'%';if(ph)ph.textContent='🟢 Timer active · cancel when you arrive';return}
+if(!S.grace){S.grace=Date.now()+15000;vib([300,150,300,150,300]);modal('<h3>⏱️ Are you safe?</h3><p>An alert will be created in 15 seconds.</p><button class="btn" onclick="walkStop()">I\'m safe</button>')}else if(Date.now()>S.grace){walkStop();sendAlert()}}
+function walkStop(){clearInterval(wI);S.walk=null;S.walkStart=null;S.grace=0;document.querySelectorAll('.mod').forEach(m=>m.remove());render()}
+
+/* ---------- LLM assistant (Groq, user's own key, aggregated context only) ---------- */
+const CHAT=[],AIH=[];let lastModel='';
+function ctxTxt(){const top=Object.entries(RK).filter(([c])=>CN[c]).sort((x,y)=>y[1]-x[1]).slice(0,5).map(([c,v])=>`${Math.round(v*100)}% risk (${CN[c]} reports${HZ[c]?', ACTIVE HAZARD':''})`).join('; ');
+return`Local context (aggregated, community-reported, not official): area ${AREAS[S.area].n}; Safety Index ${IX}/100 (${idxLabel(IX)}); highest-risk 500 m squares: ${top||'none reported'}; conditions: ${S.night?'night':'day'}.`+(S.route?` Last route: safest ${S.route.safe.dist} m risk ${S.route.safe.l}; shortest ${S.route.short.dist} m risk ${S.route.short.l}.`:'')}
+async function ask(q){const key=(ls('awaz_gk')||'').trim();if(!key)throw new Error('add your Groq API key first');
+const msgs=[{role:'system',content:"You are AWAZ AI Safety Assistant for Chitral, Pakistan. Give brief, practical, calm guidance on safe walking, harassment, mountain and weather hazards, and what to report. Use the local context below and never claim certainty. For emergencies tell the user to call Rescue 1122 or Police 15 and use the SOS button. Reply in the user's language (English or Urdu), max 120 words.\n"+ctxTxt()},...AIH.slice(-6),{role:'user',content:q}];let last;
+for(const model of['openai/gpt-oss-120b','openai/gpt-oss-20b']){try{const r=await fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+key},body:JSON.stringify({model,messages:msgs,temperature:.3,max_tokens:1500,reasoning_effort:'low'})});
+if(!r.ok){let m='';try{m=(await r.json()).error.message}catch(e){}throw new Error('HTTP '+r.status+(m?': '+m.slice(0,120):''))}
+const a=((await r.json()).choices[0].message.content||'').trim();if(!a)throw new Error('empty reply');AIH.push({role:'user',content:q},{role:'assistant',content:a});lastModel=model;return a}catch(e){last=e}}throw last}
+const chatHtml=()=>CHAT.map(m=>`<div class="mu" style="margin:6px 0;${m.u?'text-align:end;color:var(--ink)':''}">${m.u?'':'🤖 '}${esc(m.t)}</div>`).join('');
+function aiCard(){return`<div class="card"><b>🤖 AI Safety Assistant</b><div class="mu">Needs internet and your own free Groq API key, stored only on this phone (never inside the app file). Sends aggregated area risk only, never your reports, location or contacts. Everything else works offline.</div><input id="gk" type="password" autocomplete="off" placeholder="Groq API key (gsk_...)" value="${esc(ls('awaz_gk')||'')}" onchange="sls('awaz_gk',this.value.trim())"><div id="chat" style="max-height:260px;overflow:auto">${chatHtml()}</div><input id="cq" type="text" placeholder="Ask about a route, hazard or safety tip… / اردو میں پوچھیں" onkeydown="if(event.key==='Enter')sendQ()"><button class="btn" onclick="sendQ()">Ask AI</button><button class="btn s" onclick="testAI()">🔌 Test AI connection</button><div class="mu" id="aist"></div></div>`}
+async function sendQ(){const i=$('#cq'),q=i.value.trim();if(!q)return;sls('awaz_gk',$('#gk').value.trim());i.value='';CHAT.push({u:1,t:q},{t:'Thinking…'});$('#chat').innerHTML=chatHtml();
+try{const a=await ask(q);CHAT.pop();CHAT.push({t:a})}catch(e){CHAT.pop();CHAT.push({t:'AI unavailable ('+e.message+'). Check internet and key. The rest of AWAZ AI still works offline.'})}$('#chat').innerHTML=chatHtml();$('#chat').scrollTop=1e5}
+async function testAI(){const el=$('#aist');sls('awaz_gk',$('#gk').value.trim());if(el)el.textContent='Testing…';try{await ask('Reply with the single word OK.');if(el)el.textContent='✅ Connected · model '+lastModel}catch(e){if(el)el.textContent='❌ '+e.message+' (needs internet and a valid Groq key)'}}
+async function explainRoute(){const f=S.route.safe,s=S.route.short;modal('<h3>🤖 AI route explanation</h3><p id="rx" class="mu">Thinking…</p>');
+try{$('#rx').innerHTML=esc(await ask(`Explain briefly why AWAZ AI chose this route and give one practical tip. Safest: ${f.dist} m, ${f.min} min, risk ${f.l}, via ${f.via.join(', ')||'unnamed paths'}. Shortest: ${s.dist} m, ${s.min} min, risk ${s.l}.`))}catch(e){$('#rx').textContent='AI unavailable ('+e.message+'). Add a Groq key in MORE and connect to the internet.'}}
+/* ---------- info screens & demo tools ---------- */
+function truth(){const row=(b,t,d)=>`<tr><td style="width:34px">${b}</td><td><b>${t}</b><div class="mu">${d}</div></td></tr>`;
+modal(`<h3>What is real AI &amp; what is demo</h3><table>
+${row('✅','Acoustic neural network','Real. Mel-spectrogram features → trained network, int8 weights, offline. Ships with a starter model trained on synthetic sounds; retrain on your own recordings.')}
+${row('🌐','AI Safety Assistant, route explanations','Real LLM calls to Groq (openai/gpt-oss-120b, fallback gpt-oss-20b). Needs internet and your own API key.')}
+${row('✅','Roads and places','Real OpenStreetMap data once downloaded for an area. Routing runs offline over it. Paths missing from OpenStreetMap are missing here.')}
+${row('✅','Dijkstra, DBSCAN, spam rules','Real algorithms and rules (daily limit, duplicate removal, on-site trust, decay, several phones needed). They are not machine learning, and they reduce spam but cannot eliminate it.')}
+${row('✅','Encryption and hashing','AES-GCM, SHA-256, on-device storage. Not zero-knowledge.')}
+${row('🧪','Phone-to-phone relay','Implemented in the Android app with Nearby Connections; not yet field-tested on real phones. Preview mode in a browser is a simulation. No guaranteed delivery.')}
+${row('🧪','Reports and Safety Index','Reports shown at first are fictional demo data. The index is a transparent formula, not an official rating and not ML.')}</table>`)}
+function priv(){modal(`<h3>🛡️ Privacy by Design</h3><b>Stores</b><ul><li>A ~500 m square for each report, category and time</li><li>A random pseudonymous phone token (for spam limits)</li><li>Private diary entries, encrypted</li><li>Trusted contacts (on this phone only)</li></ul><b>Avoids</b><ul><li>Names, phone numbers or accounts in reports</li><li>Exact locations, raw audio, device identifiers</li></ul><p class="mu"><b>Be precise:</b> SHA-256 gives IDs, not encryption. AES-GCM encrypts emergency data and diary entries at rest. This is metadata minimization, not zero-knowledge cryptography, and not a guarantee of anonymity. The Android app goes online only for satellite tiles, OpenStreetMap data and (with your key) the AI assistant. Reports, diary entries and contacts are never uploaded. The key sits in app storage; production should use the Android Keystore. The phone token resets if the app is reinstalled, so spam limits are a deterrent, not a lock.</p>`)}
+function demo(){modal(`<h3>Demo panel</h3><button class="btn s" onclick="S.off=!S.off;render()">Toggle offline badge</button><button class="btn s" onclick="addDemo()">Add corroborating reports here (3 phones)</button><button class="btn s" onclick="addHaz()">Add landslide hazard here</button><button class="btn s" onclick="testEnc()">Test encryption round-trip</button><button class="btn s" onclick="S.reports=mkDemo();S.alerts=[];S.route=null;save();render()">Reset demo data</button>`)}
+function addDemo(){const c=S.loc||cellOf(M.la,M.lo);['Verbal Harassment','Stalking / Followed','Poor Lighting'].forEach((k,i)=>S.reports.push({id:'d'+Date.now()+i,cat:k,cell:c,sev:CAT[k][0],haz:0,t:Date.now()-i*6e5,ts:Date.now(),d:'demo'+i+'x',trust:.8,demo:1}));save();S.route=null;render()}
+function addHaz(){const c=S.loc||cellOf(M.la,M.lo);S.reports.push({id:'h'+Date.now(),cat:'Road Blocked / Landslide',cell:c,sev:3,haz:1,t:Date.now(),ts:Date.now(),d:'demohz',trust:.8,demo:1});save();S.route=null;render()}
+async function testEnc(){try{const e=await enc({hello:'awaz'}),d=await dec(e);modal(`<h3>Encryption OK</h3><p class="mu">Ciphertext: ${e.slice(0,48)}…<br>Decrypted: ${JSON.stringify(d)}</p>`)}catch(x){modal('<h3>Encryption failed</h3><p>Needs a secure (HTTPS) context.</p>')}}
+/* ---------- start ---------- */
+loadArea(S.area);
+addEventListener('online',()=>{if(!S.osm&&AREAS[S.area].id!=='drosh')dlOSM(true);render()});addEventListener('offline',render);
+addEventListener('resize',()=>{if($('#mp'))mapInit()});
+render();
+setTimeout(()=>{const s=$('#splash');if(s){s.style.opacity=0;setTimeout(()=>s.remove(),700)}},1500);
+if(!S.osm&&AREAS[S.area].id!=='drosh'&&navigator.onLine)dlOSM(true);
+if(NAT&&S.mesh)setTimeout(()=>NAT.start(),800);
+
+</script>
+</body>
+</html>
