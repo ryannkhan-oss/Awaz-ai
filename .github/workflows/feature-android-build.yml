@@ -8,10 +8,15 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: awaz-ai-feature-android-build
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Build debug APK
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Checkout feature branch
         uses: actions/checkout@v4
@@ -25,11 +30,14 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v3
 
-      - name: Make Gradle wrapper executable when present
-        run: chmod +x gradlew || true
-
       - name: Build debug APK
-        run: ./gradlew assembleDebug || gradle assembleDebug
+        run: |
+          if [ -f ./gradlew ]; then
+            chmod +x ./gradlew
+            ./gradlew --no-daemon assembleDebug --stacktrace
+          else
+            gradle --no-daemon assembleDebug --stacktrace
+          fi
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
