@@ -16,6 +16,13 @@ android {
     }
 }
 
+// Kotlin 1.8+ folds the JDK 7/8 extensions into kotlin-stdlib. Exclude older
+// split artifacts pulled transitively to prevent duplicate-class failures.
+configurations.configureEach {
+    exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk7'
+    exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk8'
+}
+
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'androidx.webkit:webkit:1.11.0'
