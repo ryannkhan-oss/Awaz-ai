@@ -1,0 +1,45 @@
+name: AWAZ AI feature branch Android build
+
+on:
+  push:
+    branches:
+      - awaz-ai-cinematic-redesign-2026-10-19
+
+permissions:
+  contents: read
+
+concurrency:
+  group: awaz-ai-feature-android-build
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build debug APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout feature branch
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: temurin
+
+      - name: Set up Gradle 8.7
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          gradle-version: '8.7'
+          cache-provider: basic
+
+      - name: Build debug APK
+        run: gradle --no-daemon assembleDebug --stacktrace
+
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: AWAZ-AI-feature-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+          retention-days: 7

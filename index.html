@@ -98,6 +98,266 @@ table{width:100%;border-collapse:collapse;font-size:.88rem}td{padding:5px 0;bord
 #splash h1{font-size:2.2rem;margin-top:14px;text-align:center}
 .sk{background:linear-gradient(90deg,var(--btn) 25%,#ffffff22 50%,var(--btn) 75%);background-size:200% 100%;animation:shine 1.4s linear infinite;border-radius:12px;height:44px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- AWAZ SIGNAL visual refinement (presentation-only layer) ---------- */
+:root{
+  --bg:#070b14;
+  --card:rgba(15,25,44,.78);
+  --solid:#0e192c;
+  --ink:#f3f7ff;
+  --mute:#a0aec5;
+  --line:rgba(220,235,255,.16);
+  --acc:#72f5cf;
+  --acc2:#86afff;
+  --g:#72f5cf;
+  --y:#ffd783;
+  --r:#ff777f;
+  --btn:rgba(255,255,255,.065);
+}
+body{
+  background-color:var(--bg);
+  letter-spacing:.008em;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+body::before{
+  background:
+    radial-gradient(38% 28% at 8% 5%,rgba(114,245,207,.16),transparent 72%),
+    radial-gradient(34% 30% at 95% 18%,rgba(134,175,255,.17),transparent 72%),
+    radial-gradient(38% 32% at 52% 105%,rgba(146,111,255,.10),transparent 72%);
+  animation:signalAmbient 24s ease-in-out infinite alternate;
+}
+@keyframes signalAmbient{
+  0%{transform:translate3d(-1%,0,0) scale(1)}
+  100%{transform:translate3d(2%,-1.5%,0) scale(1.06)}
+}
+.w{max-width:590px;padding:16px 15px 18px}
+.top{padding:9px 2px 10px;gap:12px}
+.logo{gap:12px}
+.logo h1{font-size:1.27rem;letter-spacing:.17em;text-shadow:0 0 22px rgba(114,245,207,.13)}
+.logo .bars{filter:drop-shadow(0 0 9px rgba(114,245,207,.18))}
+#net{margin-top:4px;font-size:.62rem;letter-spacing:.08em}
+h2{font-size:1.48rem;letter-spacing:-.035em;line-height:1.2;margin:12px 0 8px}
+h3{letter-spacing:-.015em}
+.mu{line-height:1.5}
+.card,.glass{
+  border-color:rgba(222,237,255,.19);
+  box-shadow:0 18px 48px rgba(0,0,0,.30),inset 0 1px rgba(255,255,255,.14),inset 0 -1px rgba(255,255,255,.025);
+}
+.card{
+  border-radius:25px;
+  padding:17px;
+  margin:13px 0;
+  background:
+    linear-gradient(140deg,rgba(255,255,255,.105),rgba(255,255,255,.035) 45%,rgba(255,255,255,.018)),
+    rgba(12,22,40,.77);
+  backdrop-filter:blur(30px) saturate(175%);
+  -webkit-backdrop-filter:blur(30px) saturate(175%);
+}
+.card:before{opacity:.72;animation-duration:9s}
+.hero{
+  min-height:126px;
+  gap:17px;
+  background:
+    radial-gradient(90% 150% at 0% 0%,rgba(114,245,207,.16),transparent 65%),
+    radial-gradient(80% 130% at 100% 100%,rgba(134,175,255,.14),transparent 62%),
+    linear-gradient(140deg,rgba(255,255,255,.11),rgba(255,255,255,.025)),
+    rgba(12,22,40,.83);
+}
+.hero>div:last-child{min-width:0}
+.hero>div:last-child>b{font-size:.98rem;line-height:1.35;display:block;margin-bottom:5px}
+.rg{filter:drop-shadow(0 0 14px rgba(114,245,207,.12))}
+.rg b{font-size:1.75rem}
+.ib{
+  border-color:rgba(222,237,255,.2);
+  background:linear-gradient(145deg,rgba(255,255,255,.11),rgba(255,255,255,.035));
+  box-shadow:inset 0 1px rgba(255,255,255,.1),0 6px 16px rgba(0,0,0,.12);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  transition:transform .22s cubic-bezier(.2,.8,.2,1),border-color .22s,background .22s;
+}
+.btn{
+  min-height:54px;
+  line-height:1.2;
+  padding:15px 17px;
+  border-radius:17px;
+  background:linear-gradient(115deg,#72f5cf 0%,#9cefdc 38%,#86afff 100%);
+  box-shadow:0 10px 26px rgba(72,185,171,.13),inset 0 1px rgba(255,255,255,.42);
+  letter-spacing:.005em;
+  position:relative;
+  overflow:hidden;
+  transition:transform .22s cubic-bezier(.2,.8,.2,1),box-shadow .22s,filter .22s;
+}
+.btn.s{
+  background:linear-gradient(145deg,rgba(255,255,255,.10),rgba(255,255,255,.035));
+  border:1px solid rgba(222,237,255,.19);
+  box-shadow:inset 0 1px rgba(255,255,255,.1),0 7px 18px rgba(0,0,0,.12);
+}
+.btn:not(:disabled):active,.ib:active,.chip:active,.cat:active,.place-chip:active{transform:scale(.975)}
+.btn:not(:disabled):focus-visible,.ib:focus-visible,.chip:focus-visible,.cat:focus-visible,.place-chip:focus-visible,nav button:focus-visible{
+  outline:2px solid var(--acc);
+  outline-offset:3px;
+}
+.btn:disabled{filter:saturate(.45);box-shadow:none}
+.sos{
+  background:linear-gradient(120deg,#ff777f,#ed536d 58%,#b93955);
+  box-shadow:0 12px 30px rgba(237,83,109,.18),inset 0 1px rgba(255,255,255,.22);
+  animation:signalSosPulse 2.8s ease-out infinite;
+}
+@keyframes signalSosPulse{
+  0%,100%{box-shadow:0 12px 30px rgba(237,83,109,.16),inset 0 1px rgba(255,255,255,.22)}
+  50%{box-shadow:0 14px 36px rgba(237,83,109,.27),inset 0 1px rgba(255,255,255,.24)}
+}
+.chip{
+  border-color:rgba(222,237,255,.16);
+  background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.025));
+  transition:transform .2s,background .2s,border-color .2s,box-shadow .2s;
+}
+.chip.s{
+  color:#071b1a;
+  background:linear-gradient(115deg,var(--acc),#a4e9ff);
+  box-shadow:0 6px 18px rgba(114,245,207,.12);
+}
+.cat{
+  border:1px solid rgba(222,237,255,.14);
+  background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.025));
+  border-radius:20px;
+  padding:12px 8px;
+  box-shadow:inset 0 1px rgba(255,255,255,.045);
+}
+.cat.sel{
+  border-color:rgba(114,245,207,.75);
+  background:linear-gradient(145deg,rgba(114,245,207,.13),rgba(134,175,255,.065));
+  box-shadow:0 8px 24px rgba(114,245,207,.08),inset 0 1px rgba(255,255,255,.1);
+}
+select,input[type=range],input[type=text],input[type=tel],input[type=password],textarea{
+  border-color:rgba(222,237,255,.18);
+  background:rgba(3,8,18,.55);
+  border-radius:15px;
+  box-shadow:inset 0 1px 5px rgba(0,0,0,.14);
+}
+select:focus,input:focus,textarea:focus{
+  outline:2px solid rgba(114,245,207,.48);
+  outline-offset:1px;
+  border-color:rgba(114,245,207,.5);
+}
+#mp{
+  border-radius:25px;
+  border-color:rgba(222,237,255,.22);
+  box-shadow:0 18px 42px rgba(0,0,0,.32),inset 0 1px rgba(255,255,255,.13);
+  isolation:isolate;
+}
+#mp:after{
+  content:"";
+  pointer-events:none;
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  background:linear-gradient(145deg,rgba(255,255,255,.08),transparent 25%,transparent 72%,rgba(114,245,207,.035));
+  z-index:1;
+}
+.mc{z-index:3}
+.mc .ib{
+  background:rgba(6,12,24,.78);
+  border-color:rgba(255,255,255,.22);
+  box-shadow:0 7px 20px rgba(0,0,0,.22),inset 0 1px rgba(255,255,255,.1);
+}
+.map-place-list{
+  border-color:rgba(222,237,255,.2);
+  background:linear-gradient(145deg,rgba(255,255,255,.105),rgba(255,255,255,.025)),rgba(8,16,31,.72);
+  box-shadow:0 14px 32px rgba(0,0,0,.23),inset 0 1px rgba(255,255,255,.13);
+}
+.map-place-list>b{display:block;letter-spacing:.015em}
+.place-chip{
+  border-color:rgba(222,237,255,.12);
+  background:rgba(5,12,25,.6);
+  border-radius:13px;
+  transition:background .2s,border-color .2s,transform .2s;
+}
+.place-chip:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.t{paint-order:stroke;stroke-width:3.4}
+nav{
+  background:rgba(8,15,29,.84);
+  border-color:rgba(222,237,255,.18);
+  box-shadow:0 15px 40px rgba(0,0,0,.38),inset 0 1px rgba(255,255,255,.09);
+  backdrop-filter:blur(28px) saturate(175%);
+  -webkit-backdrop-filter:blur(28px) saturate(175%);
+}
+nav button{min-width:0;letter-spacing:.045em}
+nav button.a{
+  color:var(--acc);
+  background:linear-gradient(145deg,rgba(114,245,207,.11),rgba(134,175,255,.055));
+  box-shadow:inset 0 1px rgba(255,255,255,.05);
+}
+nav span{filter:drop-shadow(0 0 8px rgba(114,245,207,.08))}
+#splash{
+  background:
+    radial-gradient(70% 40% at 50% 36%,rgba(114,245,207,.11),transparent 75%),
+    radial-gradient(65% 45% at 50% 75%,rgba(134,175,255,.10),transparent 75%),
+    var(--bg);
+}
+#splash .mu{max-width:270px;margin:10px auto 0;padding:0 12px}
+.hint{box-shadow:0 8px 24px rgba(0,0,0,.22)}
+.badge{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+@media (hover:hover) and (pointer:fine){
+  .card:hover{border-color:rgba(222,237,255,.26);box-shadow:0 22px 55px rgba(0,0,0,.33),inset 0 1px rgba(255,255,255,.15)}
+  .btn:not(:disabled):hover{transform:translateY(-1px);box-shadow:0 13px 30px rgba(72,185,171,.18),inset 0 1px rgba(255,255,255,.42)}
+  .btn.s:hover,.ib:hover,.place-chip:hover{border-color:rgba(114,245,207,.34);background-color:rgba(255,255,255,.09)}
+}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .card,.glass,.map-place-list,nav{background:rgba(12,22,40,.97)}
+}
+@media (max-width:380px){
+  .w{padding:12px 11px 16px}
+  .card{padding:14px;border-radius:21px}
+  .hero{gap:11px}
+  .rg,.rg svg{width:78px;height:78px}
+  .rg b{font-size:1.5rem}
+  nav{left:8px;right:8px}
+  nav button{font-size:.58rem}
+}
+@media (prefers-reduced-motion:reduce){
+  body::before,.card:before,.glass-shine:after,.sos{animation:none!important}
+}
+
+
+/* ---------- AWAZ exhibition dashboard: demo-inspired composition ---------- */
+.showcase-intro{position:relative;isolation:isolate;overflow:hidden;padding:22px 20px 20px;margin:12px 0 15px;border:1px solid rgba(222,237,255,.19);border-radius:28px;background:radial-gradient(95% 130% at 0% 0%,rgba(114,245,207,.18),transparent 60%),radial-gradient(85% 120% at 100% 100%,rgba(134,175,255,.15),transparent 62%),linear-gradient(145deg,rgba(255,255,255,.10),rgba(255,255,255,.025)),rgba(9,17,32,.76);backdrop-filter:blur(30px) saturate(165%);-webkit-backdrop-filter:blur(30px) saturate(165%);box-shadow:0 22px 54px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.15)}
+.showcase-intro:after{content:"";position:absolute;z-index:-1;width:190px;height:190px;right:-72px;top:-95px;border:1px solid rgba(114,245,207,.17);border-radius:50%;box-shadow:0 0 0 22px rgba(114,245,207,.025),0 0 0 46px rgba(134,175,255,.025);pointer-events:none}
+.showcase-kicker{display:flex;align-items:center;gap:8px;color:#a8f9e1;font-size:.65rem;font-weight:850;letter-spacing:.15em;text-transform:uppercase}
+.signal-dot{width:7px;height:7px;flex:none;border-radius:50%;background:var(--acc);box-shadow:0 0 13px rgba(114,245,207,.8);animation:signalBlink 2.3s ease-in-out infinite}
+@keyframes signalBlink{0%,100%{opacity:1;box-shadow:0 0 13px rgba(114,245,207,.65)}50%{opacity:.58;box-shadow:0 0 4px rgba(114,245,207,.2)}}
+.showcase-title{max-width:430px;margin:13px 0 9px;font-size:clamp(1.65rem,7vw,2.15rem);line-height:1.08;letter-spacing:-.055em;font-weight:850}
+.showcase-title span{color:var(--acc);text-shadow:0 0 28px rgba(114,245,207,.12)}
+.showcase-subtitle{max-width:440px;margin:0;color:#b2bfd2;font-size:.88rem;line-height:1.6}
+.showcase-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:19px}
+.showcase-metric{min-width:0;padding:10px 9px;border:1px solid rgba(222,237,255,.12);border-radius:15px;background:rgba(255,255,255,.035)}
+.showcase-metric b{display:block;color:#f2f7ff;font-size:.69rem;letter-spacing:.055em;white-space:nowrap}
+.showcase-metric span{display:block;margin-top:3px;color:#92a4bd;font-size:.66rem;line-height:1.35}
+.map-panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:18px 2px 9px}
+.map-panel-head b{display:block;font-size:.98rem;letter-spacing:-.02em}
+.map-panel-head small{display:block;margin-top:3px;color:var(--mute);font-size:.65rem;letter-spacing:.09em}
+.map-live-chip{display:inline-flex;align-items:center;gap:6px;flex:none;padding:7px 10px;border:1px solid rgba(114,245,207,.22);border-radius:999px;background:rgba(114,245,207,.07);color:#b6f8e5;font-size:.61rem;font-weight:800;letter-spacing:.06em}
+.map-live-chip:before{content:"";width:5px;height:5px;border-radius:50%;background:var(--acc);box-shadow:0 0 8px var(--acc)}
+#mp{border-color:rgba(222,237,255,.22);box-shadow:0 20px 44px rgba(0,0,0,.34),inset 0 1px rgba(255,255,255,.1)}
+.map-place-list{transition:border-color .25s,transform .25s,background .25s}
+.place-chip{transition:transform .2s ease,border-color .2s ease,background .2s ease}
+.place-chip:hover{border-color:rgba(114,245,207,.34);background:rgba(114,245,207,.08)}
+.v>.grid{gap:10px;margin-top:10px}
+.v>.grid .btn{min-height:58px;line-height:1.25;padding:15px 10px;display:flex;align-items:center;justify-content:center}
+.v>.btn.sos{min-height:82px;margin-top:12px}
+@media(max-width:380px){.showcase-intro{padding:19px 15px}.showcase-metrics{gap:5px}.showcase-metric{padding:9px 6px}.showcase-metric b{font-size:.62rem}.showcase-metric span{font-size:.6rem}.map-live-chip{font-size:.55rem;padding:6px 8px}}
+@media(prefers-reduced-motion:reduce){.signal-dot{animation:none!important}}
+
+
+.tool-deck-head{display:flex;align-items:end;justify-content:space-between;gap:10px;margin:20px 2px 9px}.tool-deck-head b{font-size:1rem;letter-spacing:-.02em}.tool-deck-head p{margin:3px 0 0}
+.tool-deck{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:10px 0 14px}
+.tool-card{min-width:0;min-height:125px;display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:14px;border-radius:20px;border:1px solid rgba(222,237,255,.16);background:linear-gradient(145deg,rgba(255,255,255,.085),rgba(255,255,255,.025)),rgba(12,22,40,.68);color:var(--ink);text-align:left;font:inherit;box-shadow:0 12px 28px rgba(0,0,0,.16),inset 0 1px rgba(255,255,255,.08);transition:transform .22s cubic-bezier(.2,.8,.2,1),border-color .22s,background .22s}
+.tool-card:active{transform:scale(.975)}.tool-card:hover{border-color:rgba(114,245,207,.32);background:linear-gradient(145deg,rgba(114,245,207,.08),rgba(255,255,255,.025)),rgba(12,22,40,.78)}
+.tool-glyph{display:grid;place-items:center;width:35px;height:35px;border-radius:12px;border:1px solid rgba(114,245,207,.2);background:rgba(114,245,207,.08);color:var(--acc);font-size:1.1rem}
+.tool-card b{font-size:.86rem;line-height:1.25}.tool-card small{color:var(--mute);font-size:.71rem;line-height:1.4}
+@media(max-width:350px){.tool-card{padding:11px;min-height:120px}.tool-deck{gap:7px}}
+
 </style>
 <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
 </head>
@@ -337,11 +597,11 @@ function cellInfo(c){analyse();const r=RK[c]||0,l=lvl(r);modal(`<h3>${SYM[l]} ${
 function poiInfo(i){const p=PL[i];modal(`<h3>${ICO(p.k)} ${esc(p.n)}</h3><p class="mu">${esc(p.k)} · from OpenStreetMap</p><button class="btn s" onclick="setP('from',${i})">Set as start</button><button class="btn" onclick="setP('to',${i})">Navigate here</button>`)}
 function legend(){return`<div class="chips">${['g','y','r'].map(l=>`<span class="chip" style="border-color:var(--${l})">${l==='g'?'🟢':l==='y'?'🟡':'🔴'} ${SYM[l]} ${t(LBL[l])}</span>`).join('')}</div>`}
 function view(){const a=AREAS[S.area],noData=!S.osm&&a.id!=='drosh';
-if(S.tab==='map')return`<div class="v"><div class="card hero"><div class="rg"><svg viewBox="0 0 92 92"><defs><linearGradient id="gr"><stop offset="0" stop-color="#35e0a1"/><stop offset="1" stop-color="#4aa8ff"/></linearGradient></defs><circle cx="46" cy="46" r="37" stroke="var(--line)"/><circle id="rc" cx="46" cy="46" r="37" stroke="url(#gr)" stroke-dasharray="0 233"/></svg><b id="ixn">0</b></div><div><b>${t('Safety Index')} · ${idxLabel(IX)}</b><div class="mu">${esc(a.n)} · community-reported, ${S.night?'night':'day'} conditions. Not an official rating.</div></div></div>
+if(S.tab==='map')return`<div class="v"><section class="showcase-intro"><div class="showcase-kicker"><i class="signal-dot"></i> Community signal · Chitral</div><h2 class="showcase-title">Your safety, <span>closer to home.</span></h2><p class="showcase-subtitle">Explore community-reported safety zones and plan a safer walk — with tools designed for places where connectivity can disappear.</p><div class="showcase-metrics"><div class="showcase-metric"><b>PRIVACY FIRST</b><span>Reports stay on this phone in this prototype</span></div><div class="showcase-metric"><b>LOW CONNECTIVITY</b><span>Offline map packs can be saved ahead</span></div><div class="showcase-metric"><b>COMMUNITY LED</b><span>Safety signals, not official ratings</span></div></div></section><div class="card hero"><div class="rg"><svg viewBox="0 0 92 92"><defs><linearGradient id="gr"><stop offset="0" stop-color="#35e0a1"/><stop offset="1" stop-color="#4aa8ff"/></linearGradient></defs><circle cx="46" cy="46" r="37" stroke="var(--line)"/><circle id="rc" cx="46" cy="46" r="37" stroke="url(#gr)" stroke-dasharray="0 233"/></svg><b id="ixn">0</b></div><div><b>${t('Safety Index')} · ${idxLabel(IX)}</b><div class="mu">${esc(a.n)} · community-reported, ${S.night?'night':'day'} conditions. Not an official rating.</div></div></div>
 <select aria-label="Area" onchange="chgArea(+this.value)">${AREAS.map((x,i)=>`<option value="${i}" ${i===S.area?'selected':''}>${esc(x.n)}</option>`).join('')}</select>
 ${noData?`<div class="card"><b>Roads for ${esc(a.n)} are not on this phone yet</b><div class="mu">Download every road, lane and footpath once while online.</div><button class="btn" onclick="dlOSM()">⬇️ Download roads &amp; places</button><div class="mu" id="osmm">${esc(S.osmMsg)}</div></div>`:''}
-<div class="chips">${chip('sat','🛰️ Satellite')}${chip('zones','Zones')}${chip('hv','Safe havens')}${chip('night','🌙 Night')}</div>${mapBox(360)}${legend()}
-<div class="grid"><button class="btn s" onclick="go('route')">🧭 ${t('SAFE ROUTE')}</button><button class="btn s" onclick="go('report')">📝 ${t('REPORT')}</button></div><button class="btn sos" onclick="go('alert')">🚨 ${t('ALERT')}</button></div>`;
+<div class="chips">${chip('sat','🛰️ Satellite')}${chip('zones','Zones')}${chip('hv','Safe havens')}${chip('night','🌙 Night')}</div><div class="map-panel-head"><div><b>Safe-route preview</b><small>CHITRAL TOWN · COMMUNITY SAFETY GRID</small></div><span class="map-live-chip">LOCAL MAP</span></div>${mapBox(360)}${legend()}
+<div class="tool-deck-head"><div><b>Safety tools</b><p class="mu">Quick access when every second matters.</p></div></div><div class="tool-deck"><button class="tool-card" onclick="go('route')"><span class="tool-glyph">↗</span><b>Safer routes</b><small>Compare route length and reported risk.</small></button><button class="tool-card" onclick="go('report')"><span class="tool-glyph">◉</span><b>Anonymous report</b><small>Share a safety concern without a public note.</small></button><button class="tool-card" onclick="go('alert')"><span class="tool-glyph">⌖</span><b>Safe Walk</b><small>Start a journey timer and manage alerts.</small></button><button class="tool-card" onclick="go('alert')"><span class="tool-glyph">∿</span><b>Distress detector</b><small>Open the on-device audio tools and test workflow.</small></button><button class="tool-card" onclick="go('alert')"><span class="tool-glyph">⌁</span><b>Nearby relay</b><small>Explore the alert hand-off options.</small></button></div><button class="btn sos" onclick="go('alert')">🚨 ${t('ALERT')}</button></div>`;
 if(S.tab==='route'){let r='';if(S.route){const c=(h,x)=>`<div class="card"><b>${h}</b><div style="font-size:1.5rem;font-weight:800">${x.dist} m · ${x.min} min</div><div>Risk level: <b style="color:var(--${x.l==='LOW'?'g':x.l==='HIGH'?'r':'y'})">${x.l}</b>${x.hz?' · ⚠ passes a hazard report':''}</div><div class="mu">via ${x.via.length?esc(x.via.join(' → ')):'unnamed paths'}</div></div>`,f=S.route.safe,s=S.route.short;
 r=`<h3 style="color:var(--acc)">${f.es.join()===s.es.join()?'BEST ROUTE FOUND':'SAFER ROUTE FOUND'}</h3>${c('🟢 Recommended',f)}${c('Shortest route',s)}<p class="mu"><b>The shortest route is not always the safest.</b> Cost = length × (1 + ${S.k} × risk); hazards ×8; Dijkstra.</p><button class="btn s" onclick="explainRoute()">🤖 Explain with AI</button>`}
 return`<div class="v"><h2>${t('SAFE ROUTE')}</h2>${mapBox(300,S.pick?'Tap the map to set the '+(S.pick==='from'?'start':'destination'):'')}<div class="card">${placeInp('from')}${placeInp('to')}<label>Safety priority: ${S.k} (0 = fastest, 6 = safest)</label><input type="range" min="0" max="6" step="1" value="${S.k}" oninput="S.k=+this.value;this.previousElementSibling.textContent='Safety priority: '+S.k+' (0 = fastest, 6 = safest)'"><label for="pc">Walking pace</label><select id="pc" onchange="S.pace=+this.value"><option value="80" ${S.pace===80?'selected':''}>Normal</option><option value="55" ${S.pace===55?'selected':''}>Slow / carrying a load</option><option value="45" ${S.pace===45?'selected':''}>Elderly / child</option></select>${chip('night','🌙 Night conditions')}</div><button class="btn" onclick="findRoute()">${t('FIND SAFER ROUTE')}</button>${r}</div>`}
