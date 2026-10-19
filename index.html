@@ -98,6 +98,35 @@ table{width:100%;border-collapse:collapse;font-size:.88rem}td{padding:5px 0;bord
 #splash h1{font-size:2.2rem;margin-top:14px;text-align:center}
 .sk{background:linear-gradient(90deg,var(--btn) 25%,#ffffff22 50%,var(--btn) 75%);background-size:200% 100%;animation:shine 1.4s linear infinite;border-radius:12px;height:44px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- AWAZ exhibition dashboard: demo-inspired composition ---------- */
+.showcase-intro{position:relative;isolation:isolate;overflow:hidden;padding:22px 20px 20px;margin:12px 0 15px;border:1px solid rgba(222,237,255,.19);border-radius:28px;background:radial-gradient(95% 130% at 0% 0%,rgba(114,245,207,.18),transparent 60%),radial-gradient(85% 120% at 100% 100%,rgba(134,175,255,.15),transparent 62%),linear-gradient(145deg,rgba(255,255,255,.10),rgba(255,255,255,.025)),rgba(9,17,32,.76);backdrop-filter:blur(30px) saturate(165%);-webkit-backdrop-filter:blur(30px) saturate(165%);box-shadow:0 22px 54px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.15)}
+.showcase-intro:after{content:"";position:absolute;z-index:-1;width:190px;height:190px;right:-72px;top:-95px;border:1px solid rgba(114,245,207,.17);border-radius:50%;box-shadow:0 0 0 22px rgba(114,245,207,.025),0 0 0 46px rgba(134,175,255,.025);pointer-events:none}
+.showcase-kicker{display:flex;align-items:center;gap:8px;color:#a8f9e1;font-size:.65rem;font-weight:850;letter-spacing:.15em;text-transform:uppercase}
+.signal-dot{width:7px;height:7px;flex:none;border-radius:50%;background:var(--acc);box-shadow:0 0 13px rgba(114,245,207,.8);animation:signalBlink 2.3s ease-in-out infinite}
+@keyframes signalBlink{0%,100%{opacity:1;box-shadow:0 0 13px rgba(114,245,207,.65)}50%{opacity:.58;box-shadow:0 0 4px rgba(114,245,207,.2)}}
+.showcase-title{max-width:430px;margin:13px 0 9px;font-size:clamp(1.65rem,7vw,2.15rem);line-height:1.08;letter-spacing:-.055em;font-weight:850}
+.showcase-title span{color:var(--acc);text-shadow:0 0 28px rgba(114,245,207,.12)}
+.showcase-subtitle{max-width:440px;margin:0;color:#b2bfd2;font-size:.88rem;line-height:1.6}
+.showcase-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:19px}
+.showcase-metric{min-width:0;padding:10px 9px;border:1px solid rgba(222,237,255,.12);border-radius:15px;background:rgba(255,255,255,.035)}
+.showcase-metric b{display:block;color:#f2f7ff;font-size:.69rem;letter-spacing:.055em;white-space:nowrap}
+.showcase-metric span{display:block;margin-top:3px;color:#92a4bd;font-size:.66rem;line-height:1.35}
+.map-panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:18px 2px 9px}
+.map-panel-head b{display:block;font-size:.98rem;letter-spacing:-.02em}
+.map-panel-head small{display:block;margin-top:3px;color:var(--mute);font-size:.65rem;letter-spacing:.09em}
+.map-live-chip{display:inline-flex;align-items:center;gap:6px;flex:none;padding:7px 10px;border:1px solid rgba(114,245,207,.22);border-radius:999px;background:rgba(114,245,207,.07);color:#b6f8e5;font-size:.61rem;font-weight:800;letter-spacing:.06em}
+.map-live-chip:before{content:"";width:5px;height:5px;border-radius:50%;background:var(--acc);box-shadow:0 0 8px var(--acc)}
+#mp{border-color:rgba(222,237,255,.22);box-shadow:0 20px 44px rgba(0,0,0,.34),inset 0 1px rgba(255,255,255,.1)}
+.map-place-list{transition:border-color .25s,transform .25s,background .25s}
+.place-chip{transition:transform .2s ease,border-color .2s ease,background .2s ease}
+.place-chip:hover{border-color:rgba(114,245,207,.34);background:rgba(114,245,207,.08)}
+.v>.grid{gap:10px;margin-top:10px}
+.v>.grid .btn{min-height:58px;line-height:1.25;padding:15px 10px;display:flex;align-items:center;justify-content:center}
+.v>.btn.sos{min-height:82px;margin-top:12px}
+@media(max-width:380px){.showcase-intro{padding:19px 15px}.showcase-metrics{gap:5px}.showcase-metric{padding:9px 6px}.showcase-metric b{font-size:.62rem}.showcase-metric span{font-size:.6rem}.map-live-chip{font-size:.55rem;padding:6px 8px}}
+@media(prefers-reduced-motion:reduce){.signal-dot{animation:none!important}}
+
 </style>
 <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
 </head>
@@ -337,10 +366,10 @@ function cellInfo(c){analyse();const r=RK[c]||0,l=lvl(r);modal(`<h3>${SYM[l]} ${
 function poiInfo(i){const p=PL[i];modal(`<h3>${ICO(p.k)} ${esc(p.n)}</h3><p class="mu">${esc(p.k)} · from OpenStreetMap</p><button class="btn s" onclick="setP('from',${i})">Set as start</button><button class="btn" onclick="setP('to',${i})">Navigate here</button>`)}
 function legend(){return`<div class="chips">${['g','y','r'].map(l=>`<span class="chip" style="border-color:var(--${l})">${l==='g'?'🟢':l==='y'?'🟡':'🔴'} ${SYM[l]} ${t(LBL[l])}</span>`).join('')}</div>`}
 function view(){const a=AREAS[S.area],noData=!S.osm&&a.id!=='drosh';
-if(S.tab==='map')return`<div class="v"><div class="card hero"><div class="rg"><svg viewBox="0 0 92 92"><defs><linearGradient id="gr"><stop offset="0" stop-color="#35e0a1"/><stop offset="1" stop-color="#4aa8ff"/></linearGradient></defs><circle cx="46" cy="46" r="37" stroke="var(--line)"/><circle id="rc" cx="46" cy="46" r="37" stroke="url(#gr)" stroke-dasharray="0 233"/></svg><b id="ixn">0</b></div><div><b>${t('Safety Index')} · ${idxLabel(IX)}</b><div class="mu">${esc(a.n)} · community-reported, ${S.night?'night':'day'} conditions. Not an official rating.</div></div></div>
+if(S.tab==='map')return`<div class="v"><section class="showcase-intro"><div class="showcase-kicker"><i class="signal-dot"></i> Community signal · Chitral</div><h2 class="showcase-title">Your safety, <span>closer to home.</span></h2><p class="showcase-subtitle">Explore community-reported safety zones and plan a safer walk — with tools designed for places where connectivity can disappear.</p><div class="showcase-metrics"><div class="showcase-metric"><b>PRIVACY FIRST</b><span>Reports stay on this phone in this prototype</span></div><div class="showcase-metric"><b>LOW CONNECTIVITY</b><span>Offline map packs can be saved ahead</span></div><div class="showcase-metric"><b>COMMUNITY LED</b><span>Safety signals, not official ratings</span></div></div></section><div class="card hero"><div class="rg"><svg viewBox="0 0 92 92"><defs><linearGradient id="gr"><stop offset="0" stop-color="#35e0a1"/><stop offset="1" stop-color="#4aa8ff"/></linearGradient></defs><circle cx="46" cy="46" r="37" stroke="var(--line)"/><circle id="rc" cx="46" cy="46" r="37" stroke="url(#gr)" stroke-dasharray="0 233"/></svg><b id="ixn">0</b></div><div><b>${t('Safety Index')} · ${idxLabel(IX)}</b><div class="mu">${esc(a.n)} · community-reported, ${S.night?'night':'day'} conditions. Not an official rating.</div></div></div>
 <select aria-label="Area" onchange="chgArea(+this.value)">${AREAS.map((x,i)=>`<option value="${i}" ${i===S.area?'selected':''}>${esc(x.n)}</option>`).join('')}</select>
 ${noData?`<div class="card"><b>Roads for ${esc(a.n)} are not on this phone yet</b><div class="mu">Download every road, lane and footpath once while online.</div><button class="btn" onclick="dlOSM()">⬇️ Download roads &amp; places</button><div class="mu" id="osmm">${esc(S.osmMsg)}</div></div>`:''}
-<div class="chips">${chip('sat','🛰️ Satellite')}${chip('zones','Zones')}${chip('hv','Safe havens')}${chip('night','🌙 Night')}</div>${mapBox(360)}${legend()}
+<div class="chips">${chip('sat','🛰️ Satellite')}${chip('zones','Zones')}${chip('hv','Safe havens')}${chip('night','🌙 Night')}</div><div class="map-panel-head"><div><b>Safe-route preview</b><small>CHITRAL TOWN · COMMUNITY SAFETY GRID</small></div><span class="map-live-chip">LOCAL MAP</span></div>${mapBox(360)}${legend()}
 <div class="grid"><button class="btn s" onclick="go('route')">🧭 ${t('SAFE ROUTE')}</button><button class="btn s" onclick="go('report')">📝 ${t('REPORT')}</button></div><button class="btn sos" onclick="go('alert')">🚨 ${t('ALERT')}</button></div>`;
 if(S.tab==='route'){let r='';if(S.route){const c=(h,x)=>`<div class="card"><b>${h}</b><div style="font-size:1.5rem;font-weight:800">${x.dist} m · ${x.min} min</div><div>Risk level: <b style="color:var(--${x.l==='LOW'?'g':x.l==='HIGH'?'r':'y'})">${x.l}</b>${x.hz?' · ⚠ passes a hazard report':''}</div><div class="mu">via ${x.via.length?esc(x.via.join(' → ')):'unnamed paths'}</div></div>`,f=S.route.safe,s=S.route.short;
 r=`<h3 style="color:var(--acc)">${f.es.join()===s.es.join()?'BEST ROUTE FOUND':'SAFER ROUTE FOUND'}</h3>${c('🟢 Recommended',f)}${c('Shortest route',s)}<p class="mu"><b>The shortest route is not always the safest.</b> Cost = length × (1 + ${S.k} × risk); hazards ×8; Dijkstra.</p><button class="btn s" onclick="explainRoute()">🤖 Explain with AI</button>`}
